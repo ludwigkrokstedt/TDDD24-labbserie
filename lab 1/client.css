@@ -2,6 +2,16 @@ body {
 	background-color: green;
 }
 
+label {
+	position: absolute;
+	left: 5px;
+}
+
+input {
+margin-right: 5px;
+}
+
+
 #leftpane {
 
 	position: absolute;
@@ -12,7 +22,7 @@ body {
 	width: 340px;
 	height: 400px;
 	background-image: url('wimage.png');
-
+	border: 1px solid black;
 	
 	}
 
@@ -25,14 +35,20 @@ body {
 	float: left;
 	width: 260px;
 	height: 400px;
-	background: blue;
+	text-align: right;
 	}
 
 #login {
+	padding-top:5px;
+	padding-bottom: 5px;
 	clear: right;
-	background: yellow;
+	border: 1px solid black;
+	background: white;
 	}
 #signup {
+	margin-top: 5px;
 	clear: right;
-	background: red;
+	border: 1px solid black;
+	background: white;
+	padding-bottom: 4px;
 	}
