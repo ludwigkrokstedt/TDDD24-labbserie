@@ -29,6 +29,36 @@ function isLoggedIn() {
 	return false;
 }
 
+
+function validateSignIn(form) {
+	if (validate(form)) {
+		console.log(form.username.value);
+		//serverstub.signIn(form.getElementById('username').value,form.getElementById('password').value);
+		return true;
+	}
+	return false;
+}
+
+/*
+
+dobject ska skickas in i serverstubben. istället för getelement så bör form.username.value etc användas
+
+function validateSignUp(form) {
+	if (validate(form) && compare_pwd(pass1,pass2)) {
+		
+		dobject = [form.getElementById('username').value,
+		form.getElementById('password').value,
+		form.getElementById('name').value,
+		form.getElementById('fname').value,
+		form.getElementById('gender').value,
+		form.getElementById('username').value,
+		form.getElementById('username')]
+		
+		serverstub.signUp(dobject);
+	}
+}
+*/
+
 //shoud loop through all the fields of the form and make sure that they
 // aren't empty. Doesn't work yet though.
 //
@@ -47,6 +77,8 @@ function validate(form) {
 	} 
 	
 	if (isFilled) {
+		
+		//all critera is met - call the serverstub function
 		console.log("alla fält är fyllda!");
 	}
 	else {
