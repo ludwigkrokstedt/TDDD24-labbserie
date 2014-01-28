@@ -3,6 +3,7 @@ function initiate() {
 	//console.log(document.getElementById('welcomeview').innerHTML);
 	if (isLoggedIn()) {
 		console.log("you are logged in");
+		showProfileView();
 		}
 	else {
 		console.log("you are not logged in");
@@ -20,7 +21,7 @@ function showWelcomeView() {
 
 function showProfileView() {
 	console.log("loading profile view...");
-	//do like showwelcomeview... no html written yet.
+	document.getElementById('content').innerHTML=(document.getElementById('profileview').innerHTML);
 }
 	
 function isLoggedIn() {
@@ -33,17 +34,25 @@ function isLoggedIn() {
 //
 // Unfinished.
 function validate(form) {
-	
-	console.log("test");
-	
+
 	//should return a list of inputfields
 	inputs = form.getElementsByTagName('input');
-	
+
 	//for every field, check if it is empty
-	for ( i=0; i<inputs.lenght; ++index) {
-		console.log(i.value);
+	isFilled = true;
+	for ( i=0; i<inputs.length-1; ++i) {		
+		if (inputs[i].value == "" || inputs[i].value == null) {
+			isFilled = false;
+		}
+	} 
+	
+	if (isFilled) {
+		console.log("alla fält är fyllda!");
+	}
+	else {
+		console.log("minst ett fält är ofyllt!");
 	}
 	
-	return false;
+	return isFilled;
 	
 }
