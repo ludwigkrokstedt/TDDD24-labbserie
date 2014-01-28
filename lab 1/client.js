@@ -37,6 +37,8 @@ function validate(form) {
 
 	//should return a list of inputfields
 	inputs = form.getElementsByTagName('input');
+	console.log(inputs[1].value);
+	compare_pwd(form.password.value, form.password2.value);
 
 	//for every field, check if it is empty
 	isFilled = true;
