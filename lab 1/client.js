@@ -67,6 +67,8 @@ function validate(form) {
 
 	//should return a list of inputfields
 	inputs = form.getElementsByTagName('input');
+	console.log(inputs[1].value);
+	compare_pwd(form.password.value, form.password2.value);
 
 	//for every field, check if it is empty
 	isFilled = true;
@@ -87,4 +89,13 @@ function validate(form) {
 	
 	return isFilled;
 	
+}
+
+function compare_pwd(pwd1, pwd2)	{
+	if (pwd1.equals(pwd2)){
+		return true;
+	}
+	else{
+		return false;
+	}	
 }
