@@ -35,8 +35,11 @@ function isLoggedIn() {
 function validate(form) {
 	
 	console.log("test");
+	
+	//should return a list of inputfields
 	inputs = form.getElementsByTagName('input');
 	
+	//for every field, check if it is empty
 	for ( i=0; i<inputs.lenght; ++index) {
 		console.log(i.value);
 	}
