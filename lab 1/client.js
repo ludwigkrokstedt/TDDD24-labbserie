@@ -56,3 +56,12 @@ function validate(form) {
 	return isFilled;
 	
 }
+
+function compare_pwd(pwd1, pwd2)	{
+	if (pwd1.equals(pwd2)){
+		return true;
+	}
+	else{
+		return false;
+	}	
+}

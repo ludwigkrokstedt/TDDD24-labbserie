@@ -43,6 +43,7 @@ margin-right: 5px;
 	clear: right;
 	border: 1px solid black;
 	background: white;
+	height: 100px;
 	}
 #signup {
 	margin-top: 5px;
@@ -50,4 +51,5 @@ margin-right: 5px;
 	border: 1px solid black;
 	background: white;
 	padding-bottom: 4px;
+	height: 270px;
 	}
