@@ -30,19 +30,18 @@
 					
 					<div id="signup">
 						<h2 align="center"> Sign up here! </h2>
-						<form name="signupform">
+						<form name="signupform" onsubmit="return validateSignUp(this)" method="post">
 						<label for="username">Username:</label> <input type="text" name="username"><br/>
 						<label for="password">Password:</label> <input type="text" name="password"><br/>
 						<label for="password2">Repeat PWD:</label><input type="text" name="password2"><br/>
 						<label for="name">First Name:</label> <input type="text" name="name"><br/>
 						<label for="fname">Family Name:</label> <input type="text" name="fname"><br/>
 						<label for="gender">Gender:</label>  <!-- <input type="text" name="gender"> -->  
-						<select>
-							<option selected value ="" disabled> Select gender </option>
+						<select name="gender" form="signupform" id="gender">
+							<option selected value =null disabled> Select gender </option>
   							<option value="male">Male</option>
   							<option value="female">Female</option>
 						</select> <br/>
-						<option selected value ="null" disabled> Select product</option>
 						<label for="city">City:</label> <input type="text" name="city"><br/>
 						<label for="country">County:</label> <input type="text" name="country"><br/>
 						<input type="submit" value="Sign up"><br/>

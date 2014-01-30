@@ -1,6 +1,4 @@
 function initiate() {
-	console.log("welcome");
-	//console.log(document.getElementById('welcomeview').innerHTML);
 	if (isLoggedIn()) {
 		console.log("you are logged in");
 		showProfileView();
@@ -9,7 +7,6 @@ function initiate() {
 		console.log("you are not logged in");
 		showWelcomeView();
 	}
-	
 }
 
 //copies the content of welcome view and puts it in the content tag.
@@ -32,34 +29,41 @@ function isLoggedIn() {
 
 function validateSignIn(form) {
 	if (validate(form)) {
-		console.log(form.username.value);
-		//serverstub.signIn(form.getElementById('username').value,form.getElementById('password').value);
+		serverstub.signIn(form.username.value,form.password.value);
+		console.log("sign in request sent to server!");
 		return true;
 	}
-	return false;
+	else {
+		return false;
+		}
 }
 
-/*
 
-dobject ska skickas in i serverstubben. istället för getelement så bör form.username.value etc användas
 
 function validateSignUp(form) {
-	if (validate(form) && compare_pwd(pass1,pass2)) {
+	if (validate(form) && compare_pwd(form.password.value,form.password2.value)){
 		
-		dobject = [form.getElementById('username').value,
-		form.getElementById('password').value,
-		form.getElementById('name').value,
-		form.getElementById('fname').value,
-		form.getElementById('gender').value,
-		form.getElementById('username').value,
-		form.getElementById('username')]
+		dobject = [form.username.value,
+		form.password.value,
+		form.name.value,
+		form.fname.value,
+		document.getElementById('gender').value,
+		form.city.value,
+		form.country.value]
 		
 		serverstub.signUp(dobject);
+		
+		console.log("signup sent to server!");
+		
+		return true;
 	}
-}
-*/
+	console.log("passwords or gender incorrect, not sent to server!");
+	return false;
+	
+	}
 
-//shoud loop through all the fields of the form and make sure that they
+
+//should loop through all the fields of the form and make sure that they
 // aren't empty. Doesn't work yet though.
 //
 // Unfinished.
@@ -67,8 +71,6 @@ function validate(form) {
 
 	//should return a list of inputfields
 	inputs = form.getElementsByTagName('input');
-	console.log(inputs[1].value);
-	compare_pwd(form.password.value, form.password2.value);
 
 	//for every field, check if it is empty
 	isFilled = true;
@@ -78,21 +80,26 @@ function validate(form) {
 		}
 	} 
 	
+	if ( (inputs.length)> 3 && (document.getElementById('gender').value != "null") ) {
+		console.log(document.getElementById('gender').value);
+	}
+	else if (inputs.length > 3) {
+		isFilled=false;
+	}
+	
 	if (isFilled) {
-		
-		//all critera is met - call the serverstub function
 		console.log("alla fält är fyllda!");
 	}
 	else {
 		console.log("minst ett fält är ofyllt!");
+		
 	}
-	
 	return isFilled;
 	
 }
 
 function compare_pwd(pwd1, pwd2)	{
-	if (pwd1.equals(pwd2)){
+	if (pwd1===pwd2){
 		return true;
 	}
 	else{
