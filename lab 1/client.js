@@ -22,7 +22,7 @@ function showProfileView() {
 	
 function isLoggedIn() {
 	//unimplemented
-	return false; 
+	return true; 
 }
 
 function validateSignIn(form) {
@@ -123,7 +123,18 @@ function blackborder(textbox){
 	textbox.style.border="1px solid black";
 }
 
-// Testfunkton för anrop från inloggad sida
-function hidepage(page){
-	getElementsById('page').style.border="1px solid black";
-}
+function presentDiv(showThisDiv, showThisTab) { 
+    //Hides all divs and all highlights
+    homepagediv.className="hidden";
+    browsepagediv.className="hidden";
+    accountpagediv.className="hidden";    
+    home.style.color="#b2b2b2";
+    browse.style.color="#b2b2b2";
+    account.style.color="#b2b2b2";
+    
+    //tabmenu.style.color="#b2b2b2";
+
+    //Shows called tag and highlights its tabname 
+    showThisDiv.className="unhidden";
+    showThisTab.style.color="black";
+  }

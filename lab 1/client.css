@@ -60,3 +60,10 @@ ul {
 	font-size:20px;
 	list-style-type: none;
 }
+
+.hidden {
+	display:none;
+}
+.unhidden	{
+	display:block;
+}
