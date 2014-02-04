@@ -36,7 +36,15 @@ function validateSignIn(form) {
 		console.log("sign in request sent to server!");
 		
 		//should return the console.log['success'] - ask about in lab!
-		return false;
+		if (console.log['success']) {
+			return true;
+		}
+		else {
+			redborder(form.email);
+			redborder(form.password);
+			return false;
+		}
+		//return false;
 	}
 	else {
 		return false;
@@ -49,12 +57,15 @@ function validateSignUp(form) {
 		
 		//send the signup request to the server
 		// creating strange errors - ask about at lab!
+		//formResult = {};
+		//formResult.email = email;
 		
 		//result = serverstub.signUp(form);
 		//console.log(result['message']);
 		//set the message2-span to display error message
 		document.getElementById('message2').innerHTML = 'logged in! - unimplemented';
-		//should return the result['success'] instead of true
+		//should return the result['success'] instead of true, also if false it should make all borders
+		//red. Not sure how to implement this.
 		return true;
 	}
 	else
@@ -75,7 +86,7 @@ function validate(form) {
 	for ( i=0; i<inputs.length-1; ++i) {		
 		if (inputs[i].value == "" || inputs[i].value == null) {
 			isFilled = false;
-			redborder(i);
+			redborder(inputs[i]);
 		}
 	} 
 	
@@ -102,8 +113,8 @@ function compare_pwd(form)	{
 }
 
 //give a textbox a red border to indicate bad input
-function redborder(i){
-	inputs[i].style.border="2px solid red";
+function redborder(textbox){
+	textbox.style.border="2px solid red";
 }
 
 //resets a field to its black border
