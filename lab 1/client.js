@@ -19,7 +19,12 @@ function showProfileView() {
 	console.log("loading profile view...");
 	document.getElementById('content').innerHTML=(document.getElementById('profileview').innerHTML);
 }
-	
+
+function sendMessage(form) {
+	console.log(form.message.value);
+	return true;
+}
+
 function isLoggedIn() {
 	if (localStorage.token) {
 		return true;

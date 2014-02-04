@@ -65,11 +65,27 @@
 				</div>
 				
 				<div id="homepagediv" class="unhidden"> 
-				
-				<p> This is your Homepage </p> 
-				
-				<button type="button" onclick="logOut()">Log out</button>
-				
+					
+					<p> This is your Homepage </p> 
+					<button type="button" onclick="logOut()">Log out</button>
+					
+					<div id="userinfo">
+					
+					</div>
+					
+					<div id=userwall">
+						<button type="button">Reload wall</button>
+						<form action="sendMessage(this)" id="usermessages">
+						<input type="text" name="message">
+						<input type="submit" value="send message!">
+						</form>
+						
+						<div id="messageboard">
+							the messages will be shown here!
+						</div>
+					</div>
+					
+					
 				</div>
 				<div id="browsepagediv" class="hidden"> 
 				
@@ -78,7 +94,7 @@
 				</div>	
 				<div id="accountpagediv" class="hidden"> 
 				
-				<p> This is your Accountpage. Här ska du </p> 
+				<p> This is your Accountpage.  </p> 
 				
 				</div>	
 				
