@@ -122,6 +122,7 @@ serverstub.signUp = function(formData){ // {email, password, firstname, familyna
                 "messages": []};
             users[formData.email] = user;
             serverstub.persistUsers();
+			
             return {"success": true, "message": "Successfully created a new user."};
         }else{
             return {"success": false, "message": "Formdata not complete."};

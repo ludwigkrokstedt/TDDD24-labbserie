@@ -22,14 +22,21 @@ function showProfileView() {
 	
 function isLoggedIn() {
 	//unimplemented
-	return true; 
+	return false; 
 }
 
 function validateSignIn(form) {
 	if (validate(form)) {
-		serverstub.signIn(form.username.value,form.password.value);
+		
+		result = serverstub.signIn(form.email.value,form.password.value);
+		//set the message1-span to display error message
+		console.log(result['message']);
+		document.getElementById('message1').innerHTML = result['message'];
+		
 		console.log("sign in request sent to server!");
-		return true;
+		
+		//should return the console.log['success'] - ask about in lab!
+		return false;
 	}
 	else {
 		return false;
@@ -37,22 +44,17 @@ function validateSignIn(form) {
 }
 
 function validateSignUp(form) {
-
-	console.log("validateSignUp called");
 	
 	if (validate(form) && compare_pwd(form)) {
- 		dobject = [form.username.value,
- 		form.password.value,
- 		form.name.value,
- 		form.fname.value,
- 		document.getElementById('gender').value,
- 		form.city.value,
- 		form.country.value]
- 		
- 		serverstub.signUp(dobject);
 		
-		console.log("signup sent to server!");
+		//send the signup request to the server
+		// creating strange errors - ask about at lab!
 		
+		//result = serverstub.signUp(form);
+		//console.log(result['message']);
+		//set the message2-span to display error message
+		document.getElementById('message2').innerHTML = 'logged in! - unimplemented';
+		//should return the result['success'] instead of true
 		return true;
 	}
 	else
@@ -61,10 +63,8 @@ function validateSignUp(form) {
 	}
 
 
-//should loop through all the fields of the form and make sure that they
-// aren't empty. Doesn't work yet though.
-//
-// Unfinished.
+//loops through all the fields of the form and make sure that they
+// aren't empty.
 function validate(form) {
 
 	//should return a list of inputfields
@@ -79,20 +79,6 @@ function validate(form) {
 		}
 	} 
 	
-// unnecessary code commented below, remove?
-//  if ( (inputs.length)> 3 && (document.getElementById('gender').value != "null") ) {
-// 		console.log(document.getElementById('gender').value);
-// 	}
-// 	else if (inputs.length > 3) {
-// 		isFilled=false;
-// 	}
-	
-	if (isFilled) {
-		console.log("alla fält är fyllda!");
-	}
-	else {
-		console.log("minst ett fält är ofyllt!");	
-	}
 	return isFilled;
 	
 }
@@ -115,11 +101,13 @@ function compare_pwd(form)	{
 	}	
 }
 
+//give a textbox a red border to indicate bad input
 function redborder(i){
 	inputs[i].style.border="2px solid red";
 }
+
+//resets a field to its black border
 function blackborder(textbox){
-	console.log("Blackborder called!");
 	textbox.style.border="1px solid black";
 }
 

@@ -40,7 +40,7 @@ border: 1px solid black;
 
 #login {
 	padding-top:5px;
-	padding-bottom: 5px;
+	padding-bottom: 10px;
 	clear: right;
 	border: 1px solid black;
 	background: white;
@@ -52,7 +52,7 @@ border: 1px solid black;
 	border: 1px solid black;
 	background: white;
 	padding-bottom: 4px;
-	height: 300px;
+	height: 295px;
 	}
 	
 ul {
