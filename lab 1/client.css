@@ -94,3 +94,12 @@ border: 1px solid black;
 	display:block;
 }
 
+.tablemessage {
+	border: 1px dotted blue;
+	margin: 10px;
+}
+
+.tablemessage td, tr{
+	border: none;
+	padding-right: 10px;
+}
