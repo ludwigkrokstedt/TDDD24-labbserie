@@ -22,9 +22,9 @@
 				<div id="rightpane">
 				
 					<div id="login">
-						<form name="loginform" onsubmit="return validateSignIn(this)" method="post">
-							<label for="username">Username:</label> <input type="text" onclick="blackborder(this)" name="email"><br/>
-							<label for="password">Password:</label> <input type="password" onclick="blackborder(this)" name="password"><br/>
+						<form name="loginform" id="loginform" onsubmit="return validateSignIn(this)" method="post">
+							<label for="username">Username:</label> <input type="text" onclick="blackborder(this)" onchange="resetLogin()" name="email"><br/>
+							<label for="password">Password:</label> <input type="password" onclick="blackborder(this)" onchange="resetLogin()" name="password"><br/>
 							<span id="message1" style="font-size: .85em;"> </span>
 							<input type="submit" value="Logga in"> 
 						</form>
@@ -39,7 +39,7 @@
 							<label for="name">First Name:</label> <input type="text" onclick="blackborder(this)" name="firstname"><br/>
 							<label for="fname">Family Name:</label> <input type="text" onclick="blackborder(this)" name="familyname"><br/>
 							<label for="gender">Gender:</label>
-							<select name="gender" id="gender">
+							<select name="gender" id="gender" onclick="blackborder(this)">
   								<option value="male">Male</option>
   								<option value="female">Female</option>
 							</select> <br/>
@@ -56,28 +56,45 @@
 			
 			<script type="text/view" id="profileview">
 				
-				<div >
-					<ul id=tabmenu>
-						<li id="home" name="home" onclick="presentDiv(homepagediv, this)" style="color:black">Home</li><br/>
-						<li id="browse" name="browse" onclick="presentDiv(browsepagediv, this)" style="color:#b2b2b2">Browse</li><br/>
-						<li id="account" name="account" onclick="presentDiv(accountpagediv, this)" style="color:#b2b2b2">Account</li><br/>
-					</ul>
+				
+				<div id="tabmenu" >
+					<ul>
+						<li id="home" name="home" onclick="presentDiv(homepagediv, this)" style="color:black"> Home </li>
+						<li id="browse" name="browse" onclick="presentDiv(browsepagediv, this)" style="color:#b2b2b2"> Browse </li>
+						<li id="account" name="account" onclick="presentDiv(accountpagediv, this)" style="color:#b2b2b2"> Account </li>
+					</ul><br>
+						
 				</div>
 				
 				<div id="homepagediv" class="unhidden"> 
-				
-				<p> This is your Homepage </p> 
-				
+					
+					<p> This is your Homepage </p> 
+					<button type="button" onclick="logOut()">Log out</button>
+					
+					<div id="userinfo">
+					
+					</div>
+					
+					<div id=userwall">
+						<button type="button">Reload wall</button>
+						<form action="sendMessage(this)" id="usermessages">
+						<input type="text" name="message">
+						<input type="submit" value="send message!">
+						</form>
+						
+						<div id="messageboard">
+							the messages will be shown here!
+						</div>
+					</div>
+
 				</div>
+				
 				<div id="browsepagediv" class="hidden"> 
+					<p> This is your Browsepage </p> 
+				</div>
 				
-				<p> This is your Browsepage </p> 
-				
-				</div>	
 				<div id="accountpagediv" class="hidden"> 
-				
-				<p> This is your Accountpage. Här ska du </p> 
-				
+					<p> This is your Accountpage.  </p> 
 				</div>	
 				
 			</script>

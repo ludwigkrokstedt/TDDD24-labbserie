@@ -19,10 +19,25 @@ function showProfileView() {
 	console.log("loading profile view...");
 	document.getElementById('content').innerHTML=(document.getElementById('profileview').innerHTML);
 }
-	
+
+function sendMessage(form) {
+	console.log(form.message.value);
+	return true;
+}
+
 function isLoggedIn() {
-	//unimplemented
+
+	if (localStorage.token) {
+		return true;
+	}
+	else {
 	return false; 
+	}
+}
+
+function logOut() {
+	localStorage.removeItem("token");
+	location.reload();
 }
 
 function validateSignIn(form) {
@@ -30,13 +45,14 @@ function validateSignIn(form) {
 		
 		result = serverstub.signIn(form.email.value,form.password.value);
 		//set the message1-span to display error message
-		console.log(result['message']);
+		console.log(result['success']);
 		document.getElementById('message1').innerHTML = result['message'];
 		
 		console.log("sign in request sent to server!");
 		
-		//should return the console.log['success'] - ask about in lab!
-		if (console.log['success']) {
+		//store token locally if success..
+		if (result['success']) {
+			localStorage.token=result['data']
 			return true;
 		}
 		else {
@@ -55,24 +71,48 @@ function validateSignUp(form) {
 	
 	if (validate(form) && compare_pwd(form)) {
 		
-		//send the signup request to the server
-		// creating strange errors - ask about at lab!
-		//formResult = {};
-		//formResult.email = email;
+
+		//construct the JSON object to send
+		formResult = {};
+		formResult.email = form.email.value;
+		formResult.password = form.password.value;
+		formResult.firstname = form.firstname.value;
+		formResult.familyname = form.familyname.value;
+		formResult.gender = form.gender.value;
+		formResult.city = form.city.value;
+		formResult.country = form.country.value;
 		
-		//result = serverstub.signUp(form);
-		//console.log(result['message']);
+		//send JSON signup request to server
+		result = serverstub.signUp(formResult);
+		
 		//set the message2-span to display error message
-		document.getElementById('message2').innerHTML = 'logged in! - unimplemented';
-		//should return the result['success'] instead of true, also if false it should make all borders
-		//red. Not sure how to implement this.
-		return true;
+		document.getElementById('message2').innerHTML = result['message'];
+		
+		if (result['success']) {
+			return true;
+		}
+		else { //redborder all cells in sign up if unsuccessful
+			
+			redborder(form.email);
+			redborder(form.password);
+			redborder(form.password2);
+			redborder(form.firstname);
+			redborder(form.familyname);
+			redborder(form.gender);
+			redborder(form.city);
+			redborder(form.country);
+			
+			return false;
+		}
+
 	}
-	else
+	
+	
+	else {
 		console.log("passwords or gender incorrect, not sent to server!");
 		return false;
 	}
-
+}
 
 //loops through all the fields of the form and make sure that they
 // aren't empty.
@@ -122,6 +162,18 @@ function blackborder(textbox){
 	textbox.style.border="1px solid black";
 }
 
+//resets the loginform
+//called when user changes value of any field in the loginform
+function resetLogin() {
+	
+	form = document.getElementById('loginform');
+	
+	blackborder(form.password);
+	blackborder(form.password);
+	document.getElementById('message1').innerHTML = "";
+	
+}
+
 function presentDiv(showThisDiv, showThisTab) { 
     //Hides all divs and all highlights
     homepagediv.className="hidden";
@@ -130,9 +182,7 @@ function presentDiv(showThisDiv, showThisTab) {
     home.style.color="#b2b2b2";
     browse.style.color="#b2b2b2";
     account.style.color="#b2b2b2";
-    
-    //tabmenu.style.color="#b2b2b2";
-
+        
     //Shows called tag and highlights its tabname 
     showThisDiv.className="unhidden";
     showThisTab.style.color="black";
