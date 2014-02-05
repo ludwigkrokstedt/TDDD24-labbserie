@@ -37,6 +37,10 @@ function sendMessage(form) {
 }
 
 function isLoggedIn() {
+<<<<<<< HEAD
+
+=======
+>>>>>>> 68b2ece0a81a82bf1704fd7f09faa8ccef8a3972
 	if (localStorage.token) {
 		return true;
 	}
@@ -192,9 +196,7 @@ function presentDiv(showThisDiv, showThisTab) {
     home.style.color="#b2b2b2";
     browse.style.color="#b2b2b2";
     account.style.color="#b2b2b2";
-    
-    //tabmenu.style.color="#b2b2b2";
-
+        
     //Shows called tag and highlights its tabname 
     showThisDiv.className="unhidden";
     showThisTab.style.color="black";

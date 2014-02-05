@@ -1,5 +1,5 @@
 body {
-	background-color: green;
+	background-color: #8CD8C0;
 }
 
 label {
@@ -55,10 +55,36 @@ border: 1px solid black;
 	height: 295px;
 	}
 	
-ul {
+
+#tabmenu {
 	font-weight:bold;
-	font-size:20px;
-	list-style-type: none;
+	font-size:25px;
+	width: 90%;
+	background-color: white;
+	box-shadow: 8px 8px 3px #888888;
+	border-style:solid;
+	border-color:black;
+	border-width:1px;
+}
+
+#tabmenu ul
+{
+    margin: 0px;
+    padding: 0px;
+    list-style-type: none;
+    text-align: center;
+}
+
+#tabmenu li:hover
+{
+    background-color: #e4f6f0;
+}
+
+#tabmenu li
+{
+    float: left;
+    margin-right: 0.5em;
+    width: 7em;
 }
 
 .hidden {
@@ -67,3 +93,4 @@ ul {
 .unhidden	{
 	display:block;
 }
+
