@@ -75,7 +75,7 @@
 					
 					<div id=userwall">
 						<button type="button">Reload wall</button>
-						<form action="sendMessage(this)" id="usermessages">
+						<form onsubmit="return sendMessage(this)" id="usermessages">
 						<input type="text" name="message">
 						<input type="submit" value="send message!">
 						</form>

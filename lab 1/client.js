@@ -21,8 +21,19 @@ function showProfileView() {
 }
 
 function sendMessage(form) {
-	console.log(form.message.value);
-	return true;
+	
+	//have to select the email
+	uemail = serverstub.getUserDataByToken(localStorage.token).data.email;
+	
+	//post message
+	result = serverstub.postMessage(localStorage.token,form.message.value,uemail);
+	
+	if (result.success) {
+		form.message.value="";
+	}
+	console.log(result.message);
+	
+	return false;
 }
 
 function isLoggedIn() {
