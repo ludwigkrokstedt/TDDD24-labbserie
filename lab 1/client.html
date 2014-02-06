@@ -70,16 +70,16 @@
 				
 				<div id="homepagediv" class="unhidden"> 
 					
-					<p> This is your Homepage </p> 
 					<button type="button" onclick="logOut()">Log out</button>
-					
+					<p> This is your Homepage </p>
+					<p> User info: </p>
 					<div id="userinfo">
 					
 					</div>
 					
 					<div id=userwall">
-						<button type="button">Reload wall</button>
-						<form action="sendMessage(this)" id="usermessages">
+						<button type="button" onclick="updateHomeWall()">Reload wall</button>
+						<form onsubmit="return sendMessage(this)" id="usermessages">
 						<input type="text" name="message">
 						<input type="submit" value="send message!">
 						</form>
@@ -100,6 +100,7 @@
 				
 				
 				<div id="accountpagediv" class="hidden"> 
+<<<<<<< HEAD
 					<p> This is your Accountpage.  </p><br>
 					<p style="display: inline">Press the button and Log Out:</p>
 					<button type="button" onclick="logOut()">Log out</button>	
@@ -115,6 +116,12 @@
 				</div>
 				
 				
+=======
+
+				
+				<p> This is your Accountpage.  </p> 
+				</div>	
+>>>>>>> 5e3d3af57acf8beb7ad5ba4a972237ca473082be
 				
 			</script>
 			

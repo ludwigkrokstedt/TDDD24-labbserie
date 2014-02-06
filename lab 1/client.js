@@ -2,6 +2,7 @@ function initiate() {
 	if (isLoggedIn()) {
 		console.log("you are logged in");
 		showProfileView();
+
 		}
 	else {
 		console.log("you are not logged in");
@@ -18,16 +19,71 @@ function showWelcomeView() {
 function showProfileView() {
 	console.log("loading profile view...");
 	document.getElementById('content').innerHTML=(document.getElementById('profileview').innerHTML);
+	updateHomeWall();
+	updateUserInfo();
 }
 
+//sends message to own wall (for now)
 function sendMessage(form) {
-	console.log(form.message.value);
-	return true;
+	
+	//have to select the email
+	uemail = serverstub.getUserDataByToken(localStorage.token).data.email;
+	
+	//post message
+	result = serverstub.postMessage(localStorage.token,form.message.value,uemail);
+	
+	if (result.success) {
+		form.message.value="";
+	}
+	console.log(result.message);
+	updateHomeWall();
+	return false;
 }
+
+//present/update the user's static info
+function updateUserInfo() {
+	
+	result = serverstub.getUserDataByToken(localStorage.token).data;
+	
+	html = "";
+	
+	html += " <table class='tablemessage' border='1'> <tr> <td> Email: </td> <td> Name: </td> <td> Gender: </td>  <td> City: </td> </tr> <tr> <td>" + result.email + "</td> <td>" + result.firstname + " " + result.familyname + "</td> <td>" + result.gender + "</td> <td>" + result.city + "</td> </tr> </table>"
+	
+	console.log(result);
+	
+	document.getElementById('userinfo').innerHTML=html;
+	
+	
+}
+
+//updates the user's home wall
+function updateHomeWall() {
+
+	result = serverstub.getUserMessagesByToken(localStorage.token);
+	
+	console.log(result.message);
+	
+	document.getElementById('messageboard').innerHTML="";
+	
+	html = "";
+	
+	for ( i=0; i<result.data.length; i++) {		
+	
+		html+= " <table class='tablemessage' border='1'> <tr> <td> Email: </td> <td> Message: </td> </tr> <tr> <td>" + result.data[i].writer + "</td> <td>" + result.data[i].content + "</td> </tr> </table>";
+	
+	}
+	
+	document.getElementById('messageboard').innerHTML=html;
+
+}
+
 
 function isLoggedIn() {
 
+<<<<<<< HEAD
 	return true;
+=======
+>>>>>>> 5e3d3af57acf8beb7ad5ba4a972237ca473082be
 	if (localStorage.token) {
 		return true;
 	}
