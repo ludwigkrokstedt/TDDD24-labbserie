@@ -133,6 +133,7 @@ serverstub.signUp = function(formData){ // {email, password, firstname, familyna
     }
 };
 serverstub.changePassword = function(token, oldPassword, newPassword){
+	console.log("change PWD called!");
     if (loggedInUsers[token] != null){
         var email = serverstub.tokenToEmail(token);
         if (users[email].password == oldPassword){

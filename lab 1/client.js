@@ -26,10 +26,8 @@ function sendMessage(form) {
 }
 
 function isLoggedIn() {
-<<<<<<< HEAD
 
-=======
->>>>>>> 68b2ece0a81a82bf1704fd7f09faa8ccef8a3972
+	return true;
 	if (localStorage.token) {
 		return true;
 	}

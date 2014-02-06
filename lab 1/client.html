@@ -66,6 +66,8 @@
 						
 				</div>
 				
+				
+				
 				<div id="homepagediv" class="unhidden"> 
 					
 					<p> This is your Homepage </p> 
@@ -86,27 +88,33 @@
 							the messages will be shown here!
 						</div>
 					</div>
-<<<<<<< HEAD
 
-=======
-					
-					
->>>>>>> 68b2ece0a81a82bf1704fd7f09faa8ccef8a3972
 				</div>
+				
+				
 				
 				<div id="browsepagediv" class="hidden"> 
 					<p> This is your Browsepage </p> 
 				</div>
 				
+				
+				
 				<div id="accountpagediv" class="hidden"> 
-<<<<<<< HEAD
-					<p> This is your Accountpage.  </p> 
-=======
+					<p> This is your Accountpage.  </p><br>
+					<p style="display: inline">Press the button and Log Out:</p>
+					<button type="button" onclick="logOut()">Log out</button>	
+					
+					<p>Change password below: </p>
+					<form name="changepwdform" onsubmit="return serverstub.signUp(sometoken, oldpwd, newpwd)" method="post">
+						<p style="display: inline">Old password:</p>
+						<input type="text" name="oldpwd"><br>
+						<p style="display: inline">New password:</p>
+						<input type="text" name="newpwd">
+						<input type="submit" value="Change pwd!">
+					</form>			
+				</div>
 				
-				<p> This is your Accountpage.  </p> 
 				
->>>>>>> 68b2ece0a81a82bf1704fd7f09faa8ccef8a3972
-				</div>	
 				
 			</script>
 			
