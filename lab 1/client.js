@@ -74,16 +74,11 @@ function updateHomeWall() {
 	}
 	
 	document.getElementById('messageboard').innerHTML=html;
-
 }
-
 
 function isLoggedIn() {
 
-<<<<<<< HEAD
-	return true;
-=======
->>>>>>> 5e3d3af57acf8beb7ad5ba4a972237ca473082be
+	//return true;
 	if (localStorage.token) {
 		return true;
 	}

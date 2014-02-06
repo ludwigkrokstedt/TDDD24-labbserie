@@ -70,11 +70,11 @@
 				
 				<div id="homepagediv" class="unhidden"> 
 					
-					<button type="button" onclick="logOut()">Log out</button>
-					<p> This is your Homepage </p>
+					<p> This is your Homepage </p><br>
+					<p style="display: inline">Press the button to Log Out:</p>
+					<button type="button" onclick="logOut()">Log out</button><br>
 					<p> User info: </p>
 					<div id="userinfo">
-					
 					</div>
 					
 					<div id=userwall">
@@ -100,28 +100,22 @@
 				
 				
 				<div id="accountpagediv" class="hidden"> 
-<<<<<<< HEAD
 					<p> This is your Accountpage.  </p><br>
-					<p style="display: inline">Press the button and Log Out:</p>
+					<p style="display: inline">Press the button to Log Out:</p>
 					<button type="button" onclick="logOut()">Log out</button>	
 					
 					<p>Change password below: </p>
-					<form name="changepwdform" onsubmit="return serverstub.signUp(sometoken, oldpwd, newpwd)" method="post">
+					<form name="changepwdform" onsubmit="return serverstub.changePassword(localStorage.token, oldpwd.value, newpwd.value)" method="post">
 						<p style="display: inline">Old password:</p>
 						<input type="text" name="oldpwd"><br>
 						<p style="display: inline">New password:</p>
 						<input type="text" name="newpwd">
-						<input type="submit" value="Change pwd!">
-					</form>			
+						<button type="button" onclick="serverstub.changePassword(localStorage.token, oldpwd.value, newpwd.value);oldpwd.value='';newpwd.value='';">Change!</button>
+						<!-- <input type="submit" value="Change pwd!"><br> -->
+					</form>
+					
+						
 				</div>
-				
-				
-=======
-
-				
-				<p> This is your Accountpage.  </p> 
-				</div>	
->>>>>>> 5e3d3af57acf8beb7ad5ba4a972237ca473082be
 				
 			</script>
 			
