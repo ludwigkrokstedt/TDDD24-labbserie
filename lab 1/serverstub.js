@@ -133,16 +133,18 @@ serverstub.signUp = function(formData){ // {email, password, firstname, familyna
     }
 };
 serverstub.changePassword = function(token, oldPassword, newPassword){
-	console.log("change PWD called!");
-	console.log(token);
-	console.log(oldPassword);
-	console.log(newPassword);
+	//console.log("change PWD called!");
+	//console.log(token);
+	//console.log(oldPassword);
+	//console.log(newPassword);
     if (loggedInUsers[token] != null){
         var email = serverstub.tokenToEmail(token);
         if (users[email].password == oldPassword){
             users[email].password = newPassword;
-            console.log("PWD successfully changed!");
             console.log(users[email].password);
+            console.log("PWD successfully changed!");
+            serverstub.persistUsers();
+            
             return {"success": true, "message": "Password changed."};
         } else {
         	console.log("PWD NOT successfully changed!");
