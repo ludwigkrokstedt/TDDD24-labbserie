@@ -70,7 +70,6 @@
 				
 				<div id="homepagediv" class="unhidden"> 
 					
-					<p> This is your Homepage </p><br>
 					<p style="display: inline">Press the button to Log Out:</p>
 					<button type="button" onclick="logOut()">Log out</button><br>
 					<p> User info: </p>
@@ -94,7 +93,33 @@
 				
 				
 				<div id="browsepagediv" class="hidden"> 
-					<p> This is your Browsepage </p> 
+				
+					<p> Find user by Email:</p>
+				
+					<form onsubmit="return findUser(this)">
+						<input type="text" name="email">
+						<input type="submit" value="find user">
+					</form>
+					
+					<p> User info: </p>
+					
+					<div id="browseinfo">
+					</div>
+					
+					<div id=browsewall">
+						<button type="button" onclick="updateBrowseWall()">Reload wall</button>
+						<form onsubmit="return sendBrowseMessage(this)" id="browsemessages">
+						<input type="text" name="message">
+						<input type="submit" value="send message!">
+						</form>
+						
+						<div id="browseboard">
+							the messages will be shown here!
+						</div>
+					</div>
+
+				
+				
 				</div>
 				
 				

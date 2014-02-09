@@ -23,6 +23,28 @@ function showProfileView() {
 	updateUserInfo();
 }
 
+
+function findUser(form) {
+	
+	email = form.email.value;
+	
+	result = serverstub.getUserMessagesByEmail(localStorage.token, email);
+	
+	
+	if (result.success) {
+		localStorage.browse = email;
+		updateBrowseWall();
+		updateBrowseInfo();
+	}
+	else {
+		console.log(result.message);
+	}
+	
+	
+	
+	return false;
+}
+
 //sends message to own wall (for now)
 function sendMessage(form) {
 	
@@ -49,7 +71,6 @@ function updateUserInfo() {
 	
 	html += " <table class='tablemessage' border='1'> <tr> <td> Email: </td> <td> Name: </td> <td> Gender: </td>  <td> City: </td> </tr> <tr> <td>" + result.email + "</td> <td>" + result.firstname + " " + result.familyname + "</td> <td>" + result.gender + "</td> <td>" + result.city + "</td> </tr> </table>"
 	
-	console.log(result);
 	
 	document.getElementById('userinfo').innerHTML=html;
 	
@@ -60,8 +81,6 @@ function updateUserInfo() {
 function updateHomeWall() {
 
 	result = serverstub.getUserMessagesByToken(localStorage.token);
-	
-	console.log(result.message);
 	
 	document.getElementById('messageboard').innerHTML="";
 	
@@ -74,6 +93,58 @@ function updateHomeWall() {
 	}
 	
 	document.getElementById('messageboard').innerHTML=html;
+}
+
+function updateBrowseWall() {
+
+	if (localStorage.browse != null) {
+	
+		result = serverstub.getUserMessagesByEmail(localStorage.token,localStorage.browse)
+		
+		if (result.success) {
+		
+			document.getElementById('browseboard').innerHTML="";
+			html = "";
+			for ( i=0; i<result.data.length; i++) {		
+			
+				html+= " <table class='tablemessage' border='1'> <tr> <td> Email: </td> <td> Message: </td> </tr> <tr> <td>" + result.data[i].writer + "</td> <td>" + result.data[i].content + "</td> </tr> </table>";
+			}
+			document.getElementById('browseboard').innerHTML=html;		
+		
+		}
+		
+	}
+	else {
+		console.log("LS.browse is not set during update browse wall");
+	}
+
+}
+
+function updateBrowseInfo() {
+
+	result = serverstub.getUserDataByEmail(localStorage.token,localStorage.browse).data;
+	
+	
+	html = "";
+	
+	html += " <table class='tablemessage' border='1'> <tr> <td> Email: </td> <td> Name: </td> <td> Gender: </td>  <td> City: </td> </tr> <tr> <td>" + result.email + "</td> <td>" + result.firstname + " " + result.familyname + "</td> <td>" + result.gender + "</td> <td>" + result.city + "</td> </tr> </table>"
+	
+	document.getElementById('browseinfo').innerHTML=html;
+
+}
+
+//sends message to other wall
+function sendBrowseMessage(form) {
+	
+	//post message
+	result = serverstub.postMessage(localStorage.token,form.message.value,localStorage.browse);
+	
+	if (result.success) {
+		form.message.value="";
+	}
+	console.log(result.message);
+	updateBrowseWall();
+	return false;
 }
 
 function isLoggedIn() {
