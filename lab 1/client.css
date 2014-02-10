@@ -46,6 +46,12 @@ border: 1px solid black;
 	background: white;
 	height: 80px;
 	}
+	
+#message1 {
+	position: absolute;
+	left: 5px;
+}
+
 #signup {
 	margin-top: 5px;
 	clear: right;
