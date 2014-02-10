@@ -176,7 +176,7 @@ function validateSignIn(form) {
 		//store token locally if success..
 		if (result['success']) {
 			localStorage.token=result['data']
-			return false;
+			//return false;
 		}
 		else {
 			redborder(form.email);
