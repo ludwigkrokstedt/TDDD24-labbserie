@@ -25,22 +25,23 @@ def hello_world():
 
 @app.route('/signin')
 def signIn():
-    print('pissprogram som inte fungerar')
+    return ('pissprogram som inte fungerar')
 
 @app.route('/getcontact')
 def get_contact():
-    print("foo")
+    return ("foo")
 
 @app.route('/removecontact')
 def remove_contact():
-    print("foo")
+    return ("foo")
 
 
 @app.teardown_appcontext
 def teardown_app(exception):
-    print("byebye")
+    return ("byebye")
 
 if __name__ == '__main__':
+
     app.run()
 
 # Note: the implementation of the functions has been removed on purpose.
