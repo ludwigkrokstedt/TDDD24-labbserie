@@ -5,27 +5,25 @@
 import sqlite3
 from flask import g
 
+DATABASE = 'database.db'
 
 def connect_db():
-    return sqlite3.connect("database.db")
+    return sqlite3.connect(DATABASE)
 
-def close_db():
-    get_db().close()
-
-
-def get_db(): 
-    db = getattr(g,'db',None)
+def get_db():
+    db = getattr(g, '_database', None)
     if db is None:
-        db = g.db = connect_db()
+        db = g._database = connect_db()
     return db
 
-def add_contact(firstname, familyname, phonenumber):
+
+def add_contact():
     print "get_db"
 
-def get_contact(firstname, familyname):
+def get_contact():
     print "get_db"
 
-def remove_contact(firstname, familyname):
+def remove_contact():
     print "get_db"
 
 def signIn():

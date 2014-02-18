@@ -32,19 +32,19 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="database_helper.py" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="database_helper.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/database_helper.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="15" column="10" selection-start="360" selection-end="360" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="646">
+            <state line="12" column="4" selection-start="335" selection-end="335" vertical-scroll-proportion="0.14314516" vertical-offset="116" max-vertical-offset="612">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="server.py" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="server.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/server.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="43" column="0" selection-start="840" selection-end="840" vertical-scroll-proportion="0.6572581" vertical-offset="405" max-vertical-offset="901">
+            <state line="10" column="24" selection-start="220" selection-end="220" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="901">
               <folding>
                 <element signature="e#309#323#0" expanded="true" />
               </folding>
@@ -63,14 +63,13 @@
     <option name="changedFiles">
       <list>
         <option value="$PROJECT_DIR$/database.schema" />
-        <option value="$PROJECT_DIR$/database_helper.py" />
         <option value="$PROJECT_DIR$/server.py" />
+        <option value="$PROJECT_DIR$/database_helper.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-8" />
-    <option name="y" value="-8" />
+    <option name="x" value="-7" />
     <option name="width" value="1616" />
     <option name="height" value="876" />
   </component>
@@ -291,7 +290,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1616" height="876" extended-state="6" />
+    <frame x="-7" y="0" width="1616" height="876" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -365,19 +364,19 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/database_helper.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="10" selection-start="360" selection-end="360" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="646">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/server.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="43" column="0" selection-start="840" selection-end="840" vertical-scroll-proportion="0.6572581" vertical-offset="405" max-vertical-offset="901">
+        <state line="10" column="24" selection-start="220" selection-end="220" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="901">
           <folding>
             <element signature="e#309#323#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/database_helper.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="12" column="4" selection-start="335" selection-end="335" vertical-scroll-proportion="0.14314516" vertical-offset="116" max-vertical-offset="612">
+          <folding />
         </state>
       </provider>
     </entry>
