@@ -1,0 +1,21 @@
+CREATE TABLE users(
+id INT AUTO INCREMENT,
+email VARCHAR(30),
+firstname VARCHAR(30),
+familyname VARCHAR(30),
+gender VARCHAR(30),
+city VARCHAR(30),
+country VARCHAR(30),
+PRIMARY KEY(id)
+);
+CREATE TABLE messages(
+id INT AUTO INCREMENT,
+writer VARCHAR(30),
+content VARCHAR(30),
+PRIMARY KEY(id)
+);
+CREATE TABLE loggedInUsers(
+token VARCHAR(36),
+email VARCHAR(30),
+PRIMARY KEY(token)
+);
