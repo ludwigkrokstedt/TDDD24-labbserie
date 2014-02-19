@@ -1,29 +1,16 @@
-'''
-Lesson 2,
-Subject: server-side programming
-Date and time: Wednesday 5th of February 2014. 10:15-12 am.
-Location: VAL Seminar room, Campus Valla.
-Author: Sahand Sadjadee
-
-Revised version.
-'''
-
 # the server module provides the capability to save, get and remove phone contacts using database_helper module.
 import hashlib
 from flask import Flask,session, render_template, request, redirect
-import database_helper
+import database_helper, random
 #more required imports
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
 
-#DEVELOPMENT VARIABLES
-USERNAME = "a"
-PASSWORD = "b"
 
 @app.route('/')
 def hello_world():
-    if 'logged_in' in session:
+    if 'token' in session:
         return render_template('secret_hideout.html')
     return render_template('hello.html')
 
@@ -31,19 +18,40 @@ def hello_world():
 def signIn():
     error = 'ERROR LOGGING IN'
     if request.method == 'POST':
-        if request.form['email'] != USERNAME:
+
+        #FETCH EMAIL AND PASSWORD FROM DATABASE
+        email = "a"
+        password = "b"
+
+        if request.form['email'] != email:
             error = 'Invalid username'
-        elif request.form['password'] != PASSWORD:
+        elif request.form['password'] != password:
             error = 'Invalid password'
         else:
-            session['logged_in'] = True
+            #GENERATE RANDOM TOKEN FOR USER
+            #TELL DATABASE THAT USER HAS LOGGED IN
+            letters = "abcdefghiklmnopqrstuvwwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
+            token = ""
+            not_updated = True
+
+            while not_updated:
+                for i in range(0,36):
+                    token += letters[random.randint(0,61)]
+
+                # result = addUserLogIn(app, email, token)
+                # change True to call the database_handler
+                if True:
+                    not_updated = False
+
+            session['token']=token
+
             return redirect('/')
     return error
 
 
 @app.route('/logout')
 def logout():
-    session.pop('logged_in', None)
+    session.pop('token', None)
     return redirect('/')
 
 @app.route('/getcontact')
@@ -64,6 +72,7 @@ def init():
     database_helper.init_db(app);
 
 if __name__ == '__main__':
+    #Secret key must be set to use sessions
     app.secret_key = 'verysecretkey123'
     app.run()
 
