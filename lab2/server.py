@@ -10,22 +10,41 @@ Revised version.
 
 # the server module provides the capability to save, get and remove phone contacts using database_helper module.
 import hashlib
-from flask import Flask
+from flask import Flask,session, render_template, request, redirect
 import database_helper
 #more required imports
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
 
+#DEVELOPMENT VARIABLES
+USERNAME = "a"
+PASSWORD = "b"
+
 @app.route('/')
 def hello_world():
+    if 'logged_in' in session:
+        return render_template('secret_hideout.html')
+    return render_template('hello.html')
 
-    return 'Welcome to phonebook'
-
-
-@app.route('/signin')
+@app.route('/signin', methods=['POST', 'GET'])
 def signIn():
-    return ('pissprogram som inte fungerar')
+    error = 'ERROR LOGGING IN'
+    if request.method == 'POST':
+        if request.form['email'] != USERNAME:
+            error = 'Invalid username'
+        elif request.form['password'] != PASSWORD:
+            error = 'Invalid password'
+        else:
+            session['logged_in'] = True
+            return redirect('/')
+    return error
+
+
+@app.route('/logout')
+def logout():
+    session.pop('logged_in', None)
+    return redirect('/')
 
 @app.route('/getcontact')
 def get_contact():
@@ -40,8 +59,12 @@ def remove_contact():
 def teardown_app(exception):
     return ("byebye")
 
-if __name__ == '__main__':
+@app.route('/init')
+def init():
+    database_helper.init_db(app);
 
+if __name__ == '__main__':
+    app.secret_key = 'verysecretkey123'
     app.run()
 
 # Note: the implementation of the functions has been removed on purpose.
