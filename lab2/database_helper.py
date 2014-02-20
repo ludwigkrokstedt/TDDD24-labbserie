@@ -27,6 +27,9 @@ def get_db(app):
         db = g._database = connect_db(app)
     return db
 
+def test_sign_up(email, password,firstname,familyname,gender,city,country):
+    return {"success": True, "message": "successfully created new user!"}
+
 
 def add_contact(app):
     print "get_db"
