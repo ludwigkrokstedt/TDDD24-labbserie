@@ -49,8 +49,25 @@ def sign_up(email,password,firstname,familyname,gender,city,country):
     #read databasen
     #loopa our parameter user mot alla i databasen, if exist, return user alreay exists
     #if not found, skriv in skickad user i databasen och return success
+
+
 def test_sign_up(email, password,firstname,familyname,gender,city,country):
     return {"success": True, "message": "successfully created new user!"}
+
+def test_check_user_credentials(email, password):
+
+    db_email = "a"
+    db_password = "6Q==" ##Encoded password "s"
+
+    return (password == db_password)
+
+def test_log_in_user(email,token):
+
+    return {"success": True, "message": "successfully logged in!"}
+
+def test_log_out_user(token):
+
+    return {"success": True, "message": "successfully logged out!"}
 
 def add_contact(app):
     print "get_db"

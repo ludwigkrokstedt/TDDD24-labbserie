@@ -20,15 +20,11 @@ def signIn():
     error = 'ERROR LOGGING IN'
     if request.method == 'POST':
 
-        #FETCH EMAIL AND PASSWORD FROM DATABASE
-        email = "a"
-        password = "b"
+        #ENCODE AND COMPARE CREDENTIALS WITH DATABASE
+        email = request.form['email']
+        password = encode(SECRET_KEY, request.form['password'])
 
-        if request.form['email'] != email:
-            error = 'Invalid username'
-        elif request.form['password'] != password:
-            error = 'Invalid password'
-        else:
+        if (database_helper.test_check_user_credentials(email,password)):
             #GENERATE RANDOM TOKEN FOR USER
             #TELL DATABASE THAT USER HAS LOGGED IN
             letters = "abcdefghiklmnopqrstuvwwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
@@ -39,22 +35,28 @@ def signIn():
                 for i in range(0,36):
                     token += letters[random.randint(0,61)]
 
-                # result = addUserLogIn(app, email, token)
-                # change True to call the database_handler
-                if True:
+                result = database_helper.test_log_in_user(email,token)
+
+                if result['success']:
                     not_updated = False
 
             session['token']=token
-
             return redirect('/')
+
+        else:
+            error = 'Invalid username or password'
+
     return error
 
 
 @app.route('/logout')
 def logout():
-    session.pop('token', None)
-    #call function in database to log out user
-    return redirect('/')
+
+    if (database_helper.test_log_out_user(session['token'])['success']):
+        session.pop('token', None)
+        return redirect('/')
+    else:
+        return "error while logging out"
 
 @app.route('/post_message', methods=['POST'])
 def post_message():
@@ -74,11 +76,7 @@ def new_user():
         ##passwords match
          ## Hash password
         password = request.form['password']
-        flash("password:" + password)
         hp = encode(SECRET_KEY, password)
-        flash("encoded key:" + hp)
-        dp = decode(SECRET_KEY, hp)
-        flash("decoded password:" + dp)
 
         ## Send data to the databasehandler to put in database
         ## email password firstname familyname gender city country
@@ -90,7 +88,7 @@ def new_user():
         city = request.form['city']
         country = request.form['country']
 
-        result = database_helper.test_sign_up(email, password,firstname,familyname,gender,city,country)
+        result = database_helper.test_sign_up(email, hp,firstname,familyname,gender,city,country)
 
         ## Do different depending on result
         if result['success']:
