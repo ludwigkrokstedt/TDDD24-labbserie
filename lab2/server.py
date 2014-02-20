@@ -108,6 +108,7 @@ def teardown_app(exception):
 @app.route('/init')
 def init():
     database_helper.init_db(app);
+    return render_template('hello.html',message = "database initiated")
 
 def encode(key, clear):
     enc = []
@@ -126,6 +127,10 @@ def decode(key, enc):
         dec.append(dec_c)
     return "".join(dec)
 
+
+@app.route('/fredrik')
+def fredrik():
+    return render_template('hello.html', message="Funktionen fredrik kord"+database_helper.sign_up(app,"myepost","mittpasswd","fredrik","wendelstrom","man","lkpg","sweden"))
 
 
 

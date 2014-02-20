@@ -14,10 +14,6 @@ def main():
 def connect_db():
     return sqlite3.connect(DATABASE)
 
-def connect_db(app):
-    rv = sqlite3.connect(app.config['DATABASE'])
-    rv.row_factory = sqlite3.Row
-    return rv
 
 # Initiates database when called (drops all tables and creates again)
 # Called form server.py
@@ -27,23 +23,27 @@ def init_db(app):
         with app.open_resource('database.schema', mode='r') as f:
             db.cursor().executescript(f.read())
         db.commit()
+        db.close()
 
-def get_db(app):
+def get_db():
+
     db = getattr(g, '_database', None)
     if db is None:
-        db = g._database = connect_db(app)
+        db = g._database = connect_db()
     return db
 
-def sign_up(email,password,firstname,familyname,gender,city,country):
+def sign_up(app, email,password,firstname,familyname,gender,city,country):
+    with app.app_context():
+        db = get_db()
+    #queryCurs = db.cursor()
 
-    queryCurs = connect_db().cursor()
+    #result = queryCurs.execute('SELECT email FROM users')
+    #queryCurs.close()
+    #db.commit()
+    #db.close()
 
-    queryCurs.execute('SELECT email FROM users')
 
-    return queryCurs
-    #for i in queryCurs:
-    #    print "\n"
-
+    return "Some text from signup"
 
     #plocka in parameter user
     #read databasen
@@ -79,5 +79,4 @@ def signIn(app):
 
 def testfunction():
     return "Hejhej"
-
 
