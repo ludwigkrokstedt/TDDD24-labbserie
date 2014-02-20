@@ -1,0 +1,32 @@
+<html>
+<body>
+
+{{  message  }} <br/>
+
+<p> please sign in </p>
+
+<form action="/signin" method="post">
+email: <input type="text" name="email"><br>
+password: <input type="password" name="password"><br>
+<input type="submit">
+</form>
+
+<form name="signupform" action="/sign_up" method="post">
+	<label for="username">Username:</label> <input type="text" name="email"><br/>
+	<label for="password">Password:</label> <input type="password" name="password"><br/>
+	<label for="password2">Repeat PWD:</label><input type="password" name="password2"><br/>
+	<label for="name">First Name:</label> <input type="text" name="firstname"><br/>
+	<label for="fname">Family Name:</label> <input type="text" name="familyname"><br/>
+	<label for="gender">Gender:</label>
+	<select name="gender" id="gender">
+  			<option value="male">Male</option>
+  			<option value="female">Female</option>
+	</select> <br/>
+	<label for="city">City:</label> <input type="text" name="city"><br/>
+	<label for="country">County:</label> <input type="text" name="country"><br/>
+	<input type="submit" value="Sign up"> 
+	<br/>				
+</form>	
+
+</body>
+</html>
