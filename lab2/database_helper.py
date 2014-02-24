@@ -35,15 +35,15 @@ def get_db():
 def sign_up(app, email,password,firstname,familyname,gender,city,country):
     with app.app_context():
         db = get_db()
-    #queryCurs = db.cursor()
+        queryCurs = db.cursor()
 
-    #result = queryCurs.execute('SELECT email FROM users')
-    #queryCurs.close()
-    #db.commit()
-    #db.close()
+        result = queryCurs.executescript('SELECT email FROM users;')
+        queryCurs.close()
+        db.commit()
+        db.close()
 
 
-    return "Some text from signup"
+        return result
 
     #plocka in parameter user
     #read databasen
