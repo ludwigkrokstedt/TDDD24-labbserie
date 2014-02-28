@@ -44,6 +44,19 @@ def sign_up(app, email, password, firstname, familyname, gender, city, country):
 
         return {"success": True, "message": "successfully created new user!"}
 
+def check_logged_in_user(app, token):
+    with app.app_context():
+        #SELECT THE USER
+        conn = sqlite3.connect(DATABASE)
+
+        result = conn.execute("SELECT * from loggedInUsers where token='"+token+"'")
+
+
+        return result
+
+
+
+
 def test_check_user_credentials(email, password):
 
     db_email = "a"

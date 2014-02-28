@@ -30,15 +30,15 @@ def get_user_data_by_email():
         token = session['token']
         email = request.form['email']
 
-       #DATABASE check if token is logged in
+        #DATABASE check if token is logged in
         #DATABASE get user data from email
 
-        return "email: " + "" + "firstname: "+ "" + "familyname: "+""+"gender: "+""+"city :"+""+"country: "
+        return "email: " + "a" + "name: "+ "w" + " familyname: "+"d"+"gender: "+ "d" + "city: " + "2" +"country: "
 
     else:
         return "ERROR - NO TOKEN IN SESSION"
 
-@app.route('get_user_messages_by_email', methods=['POST'])
+@app.route('/get_user_messages_by_email', methods=['POST'])
 def get_user_messages_by_email():
     if 'token' in session:
         token = session['token']
@@ -175,6 +175,12 @@ def fredrik():
     return 'Hello World!'
     #return render_template('hello.html', message="Funktionen fredrik kord"+database_helper.sign_up(app,"myepost","mittpasswd","fredrik","wendelstrom","man","lkpg","sweden"))
 
+@app.route('/ludde')
+def ludde():
+
+    message1 = database_helper.check_logged_in_user(app, "1234")
+    return 'Hello World!'
+    #return render_template('hello.html', message="Funktionen fredrik kord"+database_helper.sign_up(app,"myepost","mittpasswd","fredrik","wendelstrom","man","lkpg","sweden"))
 
 
 if __name__ == '__main__':

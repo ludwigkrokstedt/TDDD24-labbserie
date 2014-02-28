@@ -27,3 +27,6 @@ token VARCHAR(36),
 email VARCHAR(30),
 PRIMARY KEY(token)
 );
+
+INSERT INTO users (id, email, password, firstname, familyname, gender, city, country) VALUES (null, 'test@user', 'asd', 'test', 'user', 'male', 'somecity', 'somecountry');
+INSERT INTO loggedInUsers(token,email) VALUES ('12345','test@user');
