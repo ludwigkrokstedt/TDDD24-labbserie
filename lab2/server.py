@@ -15,6 +15,46 @@ def hello_world():
         return render_template('secret_hideout.html', token = session['token'])
     return render_template('hello.html', message="")
 
+@app.route('/get_user_data_by_token', methods=['POST'])
+def get_user_data_by_token():
+    token = request.form['token']
+    email = token_to_email(token)
+
+    #DATABASE - get user data by email
+
+    return "get user data"
+
+@app.route('/get_user_data_by_email', methods=['POST'])
+def get_user_data_by_email():
+    if 'token' in session:
+        token = session['token']
+        email = request.form['email']
+
+       #DATABASE check if token is logged in
+        #DATABASE get user data from email
+
+        return "email: " + "" + "firstname: "+ "" + "familyname: "+""+"gender: "+""+"city :"+""+"country: "
+
+    else:
+        return "ERROR - NO TOKEN IN SESSION"
+
+@app.route('get_user_messages_by_email', methods=['POST'])
+def get_user_messages_by_email():
+    if 'token' in session:
+        token = session['token']
+        email = request.form['email']
+
+        #DATABASE check if token is logged in
+        #DATABASES get user messsages from mail
+
+        return "messages got from database: "
+
+
+def token_to_email(token):
+    #DATABASE
+    email = "some@email.com"
+    return email
+
 @app.route('/signin', methods=['POST', 'GET'])
 def signIn():
     error = 'ERROR LOGGING IN'
