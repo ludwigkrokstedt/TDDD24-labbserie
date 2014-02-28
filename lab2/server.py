@@ -35,7 +35,7 @@ def signIn():
                 for i in range(0,36):
                     token += letters[random.randint(0,61)]
 
-                result = database_helper.test_log_in_user(email,token)
+                result = database_helper.test_log_in_user(app, email, token)
 
                 if result['success']:
                     not_updated = False
@@ -88,7 +88,7 @@ def new_user():
         city = request.form['city']
         country = request.form['country']
 
-        result = database_helper.test_sign_up(email, hp,firstname,familyname,gender,city,country)
+        result = database_helper.sign_up(app, email, hp,firstname,familyname,gender,city,country)
 
         ## Do different depending on result
         if result['success']:
