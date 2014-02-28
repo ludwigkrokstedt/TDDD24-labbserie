@@ -32,10 +32,20 @@ def get_db():
         db = g._database = connect_db()
     return db
 
+def testfunction():
+    conn = sqlite3.connect(DATABASE)
+    c = conn.cursor()
+
+    c.execute("INSERT INTO users (id, email, password, firstname, familyname, gender, city, country) VALUES(null, 'fredrik@gmail.com', 'qwerty', 'fredrik', 'wendelstrom', 'male', 'lkpg', 'sweden')");
+    conn.commit()
+
+    return 'Hejhej'
+
 def sign_up(app, email,password,firstname,familyname,gender,city,country):
     with app.app_context():
         db = get_db()
         queryCurs = db.cursor()
+
 
         result = queryCurs.executescript('SELECT email FROM users;')
         queryCurs.close()
@@ -76,7 +86,4 @@ def add_contact(app):
 def signIn(app):
     print "loggar in...."
 # Note: the implementation of the functions has been removed on purpose.
-
-def testfunction():
-    return "Hejhej"
 

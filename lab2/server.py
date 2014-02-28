@@ -130,7 +130,10 @@ def decode(key, enc):
 
 @app.route('/fredrik')
 def fredrik():
-    return render_template('hello.html', message="Funktionen fredrik kord"+database_helper.sign_up(app,"myepost","mittpasswd","fredrik","wendelstrom","man","lkpg","sweden"))
+
+    database_helper.testfunction()
+    return 'Hello World!'
+    #return render_template('hello.html', message="Funktionen fredrik kord"+database_helper.sign_up(app,"myepost","mittpasswd","fredrik","wendelstrom","man","lkpg","sweden"))
 
 
 

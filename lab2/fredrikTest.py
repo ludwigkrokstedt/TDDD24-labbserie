@@ -2,6 +2,11 @@ __author__ = 'fredrikwendelstrom'
 
 import database_helper
 import sqlite3
+import base64
+from flask import Flask,session, render_template, request, redirect, flash
+
+app = Flask(__name__)
+app.config['DEBUG'] = True
 
 def createTable():
     queryCurs.execute('''CREATE TABLE customers
@@ -11,9 +16,10 @@ def addCust(name,street,city,state, balance):
     queryCurs.execute('''INSERT INTO customers (name,street,city,state, balance)
     VALUES (?,?,?,?,?)''',(name,street,city,state, balance))
 
+@app.route('/fredrik2')
 def main():
     print "Main in fredrikTest"
-    print(database_helper.sign_up("myepost","mittpasswd","fredrik","wendelstrom","man","lkpg","sweden"))
+    #print(database_helper.sign_up("myepost","mittpasswd","fredrik","wendelstrom","man","lkpg","sweden"))
 
 
     #createDb = sqlite3.connect('testdb.db')
