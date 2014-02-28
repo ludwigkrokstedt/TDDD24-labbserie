@@ -32,37 +32,17 @@ def get_db():
         db = g._database = connect_db()
     return db
 
-def testfunction():
-    conn = sqlite3.connect(DATABASE)
-    c = conn.cursor()
-
-    c.execute("INSERT INTO users (id, email, password, firstname, familyname, gender, city, country) VALUES(null, 'fredrik@gmail.com', 'qwerty', 'fredrik', 'wendelstrom', 'male', 'lkpg', 'sweden')");
-    conn.commit()
-
-    return 'Hejhej'
-
-def sign_up(app, email,password,firstname,familyname,gender,city,country):
+def sign_up(app, email, password, firstname, familyname, gender, city, country):
     with app.app_context():
-        db = get_db()
-        queryCurs = db.cursor()
+        conn = sqlite3.connect(DATABASE)
+        c = conn.cursor()
+
+        c.execute("INSERT INTO users (id, email, password, firstname, familyname, gender, city, country) VALUES(null, '"+email+"', '"+password+"', '"+firstname+"', '"+familyname+"', '"+gender+"', '"+city+"', '"+country+"')");
+
+        conn.commit()
 
 
-        result = queryCurs.executescript('SELECT email FROM users;')
-        queryCurs.close()
-        db.commit()
-        db.close()
-
-
-        return result
-
-    #plocka in parameter user
-    #read databasen
-    #loopa our parameter user mot alla i databasen, if exist, return user alreay exists
-    #if not found, skriv in skickad user i databasen och return success
-
-
-def test_sign_up(email, password,firstname,familyname,gender,city,country):
-    return {"success": True, "message": "successfully created new user!"}
+        return {"success": True, "message": "successfully created new user!"}
 
 def test_check_user_credentials(email, password):
 
@@ -83,7 +63,15 @@ def add_contact(app):
     print "get_db"
     return "om det gar bra - successs"
 
-def signIn(app):
-    print "loggar in...."
+def sign_in(app, email, token):
+    with app.app_context():
+        conn = sqlite3.connect(DATABASE)
+        c = conn.cursor()
+
+        c.execute()
+
+        conn.commit()
+
+        return {"success": True, "message": "successfully logged in!"}
 # Note: the implementation of the functions has been removed on purpose.
 
