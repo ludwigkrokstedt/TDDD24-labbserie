@@ -64,11 +64,25 @@ def test_check_user_credentials(email, password):
 
     return (password == db_password)
 
-def test_log_in_user(email,token):
+def test_log_in_user(app, email, token):
+
+    conn = sqlite3.connect(DATABASE)
+    c = conn.cursor()
+
+    c.execute("INSERT INTO loggedInUsers(email, token) VALUES('"+email+"', '"+token+"')")
+
+    conn.commit()
 
     return {"success": True, "message": "successfully logged in!"}
 
 def test_log_out_user(token):
+
+    conn = sqlite3.connect(DATABASE)
+    c = conn.cursor()
+
+    c.execute("DELETE FROM loggedInUsers WHERE token='"+token+"' ")
+
+    conn.commit()
 
     return {"success": True, "message": "successfully logged out!"}
 
