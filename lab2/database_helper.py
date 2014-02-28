@@ -68,20 +68,44 @@ def token_to_email(app,token):
     result = check_logged_in_user(app,token)
     return result['data']
 
-def test_check_user_credentials(email, password):
+def test_check_user_credentials(app, email, password):
+    with app.app_context():
+        conn = sqlite3.connect(DATABASE)
 
-    db_email = "a"
-    db_password = "6Q==" ##Encoded password "s"
+        cursor = conn.execute("SELECT * from users where email='"+email+"' AND password='"+email+"' ")
 
-    return (password == db_password)
+        success = False
 
-def test_log_in_user(email,token):
+        for row in cursor:
+                db_password = row[2]
+                success = True
 
-    return {"success": True, "message": "successfully logged in!"}
+        if success:
+            return (password == db_password)
+        else:
+            return False
 
-def test_log_out_user(token):
+def test_log_in_user(app, email, token):
+    with app.app_context():
+        conn = sqlite3.connect(DATABASE)
+        c = conn.cursor()
 
-    return {"success": True, "message": "successfully logged out!"}
+        c.execute("INSERT INTO loggedInUsers(email, token) VALUES('"+email+"', '"+token+"')")
+
+        conn.commit()
+
+        return {"success": True, "message": "successfully logged in!"}
+
+def test_log_out_user(app, token):
+    with app.app_context():
+        conn = sqlite3.connect(DATABASE)
+        c = conn.cursor()
+
+        c.execute("DELETE FROM loggedInUsers WHERE token='"+token+"' ")
+
+        conn.commit()
+
+        return {"success": True, "message": "successfully logged out!"}
 
 def add_contact(app):
     print "get_db"

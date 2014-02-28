@@ -20,6 +20,8 @@ def get_user_data_by_token():
     token = request.form['token']
     email = database_helper.token_to_email(token)
 
+
+
     #DATABASE - get user data by email
 
     return "get user data"
@@ -64,7 +66,7 @@ def signIn():
         email = request.form['email']
         password = encode(SECRET_KEY, request.form['password'])
 
-        if (database_helper.test_check_user_credentials(email,password)):
+        if (database_helper.test_check_user_credentials(app,email,password)):
             #GENERATE RANDOM TOKEN FOR USER
             #TELL DATABASE THAT USER HAS LOGGED IN
             letters = "abcdefghiklmnopqrstuvwwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
@@ -92,7 +94,7 @@ def signIn():
 @app.route('/logout')
 def logout():
 
-    if (database_helper.test_log_out_user(session['token'])['success']):
+    if (database_helper.test_log_out_user(app, session['token'])['success']):
         session.pop('token', None)
         return redirect('/')
     else:
@@ -166,14 +168,6 @@ def decode(key, enc):
         dec_c = chr((256 + ord(enc[i]) - ord(key_c)) % 256)
         dec.append(dec_c)
     return "".join(dec)
-
-
-@app.route('/fredrik')
-def fredrik():
-
-    database_helper.testfunction()
-    return 'Hello World!'
-    #return render_template('hello.html', message="Funktionen fredrik kord"+database_helper.sign_up(app,"myepost","mittpasswd","fredrik","wendelstrom","man","lkpg","sweden"))
 
 @app.route('/ludde')
 def ludde():
