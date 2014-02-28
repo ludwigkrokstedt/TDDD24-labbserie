@@ -18,7 +18,7 @@ def hello_world():
 @app.route('/get_user_data_by_token', methods=['POST'])
 def get_user_data_by_token():
     token = request.form['token']
-    email = token_to_email(token)
+    email = database_helper.token_to_email(token)
 
     #DATABASE - get user data by email
 
@@ -178,10 +178,11 @@ def fredrik():
 @app.route('/ludde')
 def ludde():
 
-    message1 = database_helper.check_logged_in_user(app, "1234")
-    return 'Hello World!'
-    #return render_template('hello.html', message="Funktionen fredrik kord"+database_helper.sign_up(app,"myepost","mittpasswd","fredrik","wendelstrom","man","lkpg","sweden"))
+    ## check logged in user
+    message1 = database_helper.check_logged_in_user(app, "12345")
+    message2 = database_helper.check_logged_in_user(app, "1111")
 
+    return "w_loggedinuser: " + str(message1["success"]) + " nw_loggedinuser: " + str(message2["success"])
 
 if __name__ == '__main__':
     #Secret key must be set to use sessions
