@@ -2,17 +2,20 @@
 <body>
 
 {{  message  }} <br/>
+Your token is:  {{  token  }} <br/>
 
 <p> please sign in </p>
 <a href="/init">Initiate database!</a><br/>
 <a href="/ludde">Ludde Test</a><br/>
 
+Sign in test (PASSWORD FOR TESTUSER IS "a")<br/>
 <form action="/signin" method="post">
 email: <input type="text" name="email"><br>
 password: <input type="password" name="password"><br>
 <input type="submit">
 </form>
 
+Sign up test <br/>
 <form name="signupform" action="/sign_up" method="post">
 	<label for="username">Username:</label> <input type="text" name="email"><br/>
 	<label for="password">Password:</label> <input type="password" name="password"><br/>
@@ -29,6 +32,12 @@ password: <input type="password" name="password"><br>
 	<input type="submit" value="Sign up"> 
 	<br/>				
 </form>	
+
+User data test <br/>
+<form name="getuserdata" action="/get_user_data_by_email" method="post">
+	<label for="email">Email:<input type="text" name="email"><br/>
+	<input type="submit" value="get user data">
+</form>
 
 </body>
 </html>
