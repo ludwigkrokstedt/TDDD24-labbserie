@@ -3,8 +3,7 @@
 
 {{  message  }} <br/>
 Your token is:  {{  token  }} <br/>
-
-<p> please sign in </p>
+<a href="/logout">Log Out</a><br/>
 <a href="/init">Initiate database!</a><br/>
 <a href="/ludde">Ludde Test</a><br/>
 
@@ -33,11 +32,25 @@ Sign up test <br/>
 	<br/>				
 </form>	
 
-User data test <br/>
+User data by email test <br/>
 <form name="getuserdata" action="/get_user_data_by_email" method="post">
 	<label for="email">Email:<input type="text" name="email"><br/>
 	<input type="submit" value="get user data">
 </form>
+
+User data by token test <br/>
+<form name="gettokendata" action="/get_user_data_by_token" method="post">
+	<label for="token">Token:<input type="text" name="token"><br/>
+	<input type="submit" value="get user data">
+</form>
+
+Post message test<br/>
+<form name="postmessage" action="/post_message" method="post">
+	<label for="recipient">Recipient:<input type="text" name="recipient"><br/>
+	<label for="message">Message:<input type="text" name="message"><br/>
+	<input type="submit" value="post message">
+</form>
+
 
 </body>
 </html>

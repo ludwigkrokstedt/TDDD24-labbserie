@@ -17,6 +17,7 @@ PRIMARY KEY(id)
 
 CREATE TABLE messages(
 id INT AUTO INCREMENT,
+recipient VARCHAR(30),
 writer VARCHAR(30),
 content VARCHAR(30),
 PRIMARY KEY(id)

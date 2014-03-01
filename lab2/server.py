@@ -15,16 +15,33 @@ def hello_world():
         return render_template('hello.html', token = session['token'])
     return render_template('hello.html', message="")
 
+
+## OTESTAD FUNKTION
+@app.route('/post_message', methods=['POST'])
+def post_message():
+    if 'token' in session:
+
+        token = session['token']
+        recipient = request.form['recipient']
+        message = request.form['message']
+
+        result = database_helper.post_message(app, recipient, database_helper.token_to_email(app,token), message)
+
+        return result["message"]
+
+    else:
+        return "NO TOKEN IN SESSION"
 @app.route('/get_user_data_by_token', methods=['POST'])
 def get_user_data_by_token():
-    token = request.form['token']
-    email = database_helper.token_to_email(token)
+    if 'token' in session:
+        token = request.form['token']
+        email = database_helper.token_to_email(app, token)
 
+        result = database_helper.get_user_data_by_email(app,email)
+        return result["data"]
 
-
-    #DATABASE - get user data by email
-
-    return "get user data"
+    else:
+        return "NO TOKEN IN SESSION"
 
 @app.route('/get_user_data_by_email', methods=['POST'])
 def get_user_data_by_email():
@@ -109,16 +126,6 @@ def logout():
         return redirect('/')
     else:
         return "error while logging out - couldn't pop token from session"
-
-@app.route('/post_message', methods=['POST'])
-def post_message():
-
-    message = "ERROR SENDING MESSAGE"
-    #result = postMessage(session['token'],request.form['content'],request.form[toEmail)
-    result = True
-    if result:
-        message = "message successful"
-    return message
 
 @app.route('/sign_up', methods=['POST'])
 def new_user():

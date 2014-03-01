@@ -123,6 +123,19 @@ def log_in_user(app, email, token):
 
         return {"success": True, "message": "successfully logged in!"}
 
+def post_message(app,recipient, writer, content):
+    with app.app_context():
+        conn = sqlite3.connect(DATABASE)
+        c = conn.cursor()
+
+        c.execute("INSERT INTO messages(recipient, writer, content) VALUES('"+recipient+"', '"+writer+"', '"+content+"')")
+
+        conn.commit()
+
+        return {"success": True, "message": "message successfully sent!"}
+
+
+
 def test_log_out_user(app, token):
     with app.app_context():
         conn = sqlite3.connect(DATABASE)
