@@ -135,6 +135,28 @@ def post_message(app,recipient, writer, content):
         return {"success": True, "message": "message successfully sent!"}
 
 
+def get_user_messages_by_email(app, email):
+
+     with app.app_context():
+        #SELECT THE USER
+        conn = sqlite3.connect(DATABASE)
+
+        cursor = conn.execute("SELECT * from messages where recipient='"+email+"'")
+
+        result = {"success": False, "data": [],"message": "No such user"}
+
+        i = 0
+        messages = []
+        for row in cursor:
+                messages[i] = {"writer": row[2], "content": row[3]}
+                result["success"] = True
+                result["message"] = "Messages retrieved"
+
+        result["data"] = messages
+
+        return result
+
+
 
 def test_log_out_user(app, token):
     with app.app_context():

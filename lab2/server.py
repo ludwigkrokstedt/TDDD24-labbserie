@@ -76,8 +76,10 @@ def get_user_messages_by_email():
 
         if result['success']:
 
-            #DATABASES get user messsages from mail
-            return "user messages"
+            u_messages = database_helper.get_user_messages_by_email(app, email)
+            ## NOT SURE WHAT TO DO HERE
+            return u_messages["message"]
+
         else:
             return "ERROR:"+result['data']
     else:
@@ -116,7 +118,6 @@ def signIn():
             error = cred_result["message"]
 
     return error
-
 
 @app.route('/logout')
 def logout():
