@@ -12,22 +12,41 @@ SECRET_KEY = 'verysecretkey!23X'
 @app.route('/')
 def hello_world():
     if 'token' in session:
-        return render_template('secret_hideout.html', token = session['token'])
+        return render_template('hello.html', token = session['token'])
     return render_template('hello.html', message="")
 
-@app.route('/get_user_data_by_token', methods=['POST'])
-def get_user_data_by_token():
-    token = request.form['token']
-    email = database_helper.token_to_email(token)
 
+## OTESTAD FUNKTION
+@app.route('/post_message', methods=['POST'])
+def post_message():
+    if 'token' in session:
 
     #DATABASE check if token is logged in
     result = database_helper.check_logged_in_user(app, token)
     if result['success']:
-        userdata =
-        #DATABASE - get user data by email
 
-    return "get user data"
+
+        token = session['token']
+        recipient = request.form['recipient']
+        message = request.form['message']
+
+        result = database_helper.post_message(app, recipient, database_helper.token_to_email(app,token), message)
+
+        return result["message"]
+
+    else:
+        return "NO TOKEN IN SESSION"
+@app.route('/get_user_data_by_token', methods=['POST'])
+def get_user_data_by_token():
+    if 'token' in session:
+        token = request.form['token']
+        email = database_helper.token_to_email(app, token)
+
+        result = database_helper.get_user_data_by_email(app,email)
+        return result["data"]
+
+    else:
+        return "NO TOKEN IN SESSION"
 
 @app.route('/get_user_data_by_email', methods=['POST'])
 def get_user_data_by_email():
@@ -35,14 +54,24 @@ def get_user_data_by_email():
         token = session['token']
         email = request.form['email']
 
-
         #DATABASE check if token is logged in
         #DATABASE get user data from email
+        result = database_helper.check_logged_in_user(app, token)
 
-        return "email: " + "a" + "name: "+ "w" + " familyname: "+"d"+"gender: "+ "d" + "city: " + "2" +"country: "
+        if result['success']:
+
+            u_data=database_helper.get_user_data_by_email(app,email)
+
+            if u_data['success']:
+                return u_data["data"]
+            else:
+                return "Error fetching user data"
+
+        else:
+            return "Error:"+result['data']
 
     else:
-        return "ERROR - NO TOKEN IN SESSION"
+        return "ERROR - NO TOKEN IN SESSION (origin: get_user_data_by_email)"
 
 @app.route('/get_user_messages_by_email', methods=['POST'])
 def get_user_messages_by_email():
@@ -50,11 +79,16 @@ def get_user_messages_by_email():
         token = session['token']
         email = request.form['email']
 
-        #DATABASE check if token is logged in
-        #DATABASES get user messsages from mail
+        result = database_helper.check_logged_in_user(app,token)
 
-        return "messages got from database: "
+        if result['success']:
 
+            #DATABASES get user messsages from mail
+            return "user messages"
+        else:
+            return "ERROR:"+result['data']
+    else:
+        return "ERROR - NO TOKEN IN SESSION (origin: get_user_messages_by_email)"
 
 @app.route('/signin', methods=['POST', 'GET'])
 def signIn():
@@ -65,7 +99,8 @@ def signIn():
         email = request.form['email']
         password = encode(SECRET_KEY, request.form['password'])
 
-        if (database_helper.test_check_user_credentials(app,email,password)):
+        cred_result = database_helper.check_user_credentials(app,email,password)
+        if (cred_result["success"]):
             #GENERATE RANDOM TOKEN FOR USER
             #TELL DATABASE THAT USER HAS LOGGED IN
             letters = "abcdefghiklmnopqrstuvwwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
@@ -76,7 +111,7 @@ def signIn():
                 for i in range(0,36):
                     token += letters[random.randint(0,61)]
 
-                result = database_helper.test_log_in_user(app, email, token)
+                result = database_helper.log_in_user(app, email, token)
 
                 if result['success']:
                     not_updated = False
@@ -85,7 +120,7 @@ def signIn():
             return redirect('/')
 
         else:
-            error = 'Invalid username or password'
+            error = cred_result["message"]
 
     return error
 
@@ -97,17 +132,7 @@ def logout():
         session.pop('token', None)
         return redirect('/')
     else:
-        return "error while logging out"
-
-@app.route('/post_message', methods=['POST'])
-def post_message():
-
-    message = "ERROR SENDING MESSAGE"
-    #result = postMessage(session['token'],request.form['content'],request.form[toEmail)
-    result = True
-    if result:
-        message = "message successful"
-    return message
+        return "error while logging out - couldn't pop token from session"
 
 @app.route('/sign_up', methods=['POST'])
 def new_user():
@@ -175,7 +200,15 @@ def ludde():
     message1 = database_helper.check_logged_in_user(app, "12345")
     message2 = database_helper.check_logged_in_user(app, "1111")
 
-    return "w_loggedinuser: " + str(message1["success"]) + " nw_loggedinuser: " + str(message2["success"])
+    ## check user credentials
+    email = "test@user"
+    password = "asd"
+    message3 = database_helper.check_user_credentials(app, email, password)
+
+    ## hash password
+    message4 = encode(SECRET_KEY, "a")
+
+    return "w_loggedinuser: " + str(message1["success"]) + " nw_loggedinuser: " + str(message2["success"]) + "u_credentials: " + message3["message"] + "encoded a: " + message4
 
 if __name__ == '__main__':
     #Secret key must be set to use sessions

@@ -2,17 +2,19 @@
 <body>
 
 {{  message  }} <br/>
-
-<p> please sign in </p>
+Your token is:  {{  token  }} <br/>
+<a href="/logout">Log Out</a><br/>
 <a href="/init">Initiate database!</a><br/>
 <a href="/ludde">Ludde Test</a><br/>
 
+Sign in test (PASSWORD FOR TESTUSER IS "a")<br/>
 <form action="/signin" method="post">
 email: <input type="text" name="email"><br>
 password: <input type="password" name="password"><br>
 <input type="submit">
 </form>
 
+Sign up test <br/>
 <form name="signupform" action="/sign_up" method="post">
 	<label for="username">Username:</label> <input type="text" name="email"><br/>
 	<label for="password">Password:</label> <input type="password" name="password"><br/>
@@ -29,6 +31,26 @@ password: <input type="password" name="password"><br>
 	<input type="submit" value="Sign up"> 
 	<br/>				
 </form>	
+
+User data by email test <br/>
+<form name="getuserdata" action="/get_user_data_by_email" method="post">
+	<label for="email">Email:<input type="text" name="email"><br/>
+	<input type="submit" value="get user data">
+</form>
+
+User data by token test <br/>
+<form name="gettokendata" action="/get_user_data_by_token" method="post">
+	<label for="token">Token:<input type="text" name="token"><br/>
+	<input type="submit" value="get user data">
+</form>
+
+Post message test<br/>
+<form name="postmessage" action="/post_message" method="post">
+	<label for="recipient">Recipient:<input type="text" name="recipient"><br/>
+	<label for="message">Message:<input type="text" name="message"><br/>
+	<input type="submit" value="post message">
+</form>
+
 
 </body>
 </html>

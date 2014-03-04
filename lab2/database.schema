@@ -17,6 +17,7 @@ PRIMARY KEY(id)
 
 CREATE TABLE messages(
 id INT AUTO INCREMENT,
+recipient VARCHAR(30),
 writer VARCHAR(30),
 content VARCHAR(30),
 PRIMARY KEY(id)
@@ -28,5 +29,5 @@ email VARCHAR(30),
 PRIMARY KEY(token)
 );
 
-INSERT INTO users (id, email, password, firstname, familyname, gender, city, country) VALUES (null, 'test@user', 'asd', 'test', 'user', 'male', 'somecity', 'somecountry');
+INSERT INTO users (id, email, password, firstname, familyname, gender, city, country) VALUES (null, 'test@user', '1w==', 'test', 'user', 'male', 'somecity', 'somecountry');
 INSERT INTO loggedInUsers(token,email) VALUES ('12345','test@user');
