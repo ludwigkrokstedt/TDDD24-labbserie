@@ -145,14 +145,17 @@ def get_user_messages_by_email(app, email):
 
         result = {"success": False, "data": [],"message": "No such user"}
 
-        i = 0
-        messages = []
+        messages = ""
+        i=1
         for row in cursor:
-                messages[i] = {"writer": row[2], "content": row[3]}
-                result["success"] = True
-                result["message"] = "Messages retrieved"
+            messages += "    " + str(i) + ": writer: " + row[2] + " content: " + row[3]
+            result["success"] = True
+            result["message"] = "Messages retrieved!"
+            i=i+1
 
         result["data"] = messages
+
+        conn.commit()
 
         return result
 

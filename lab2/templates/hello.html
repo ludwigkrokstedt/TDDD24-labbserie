@@ -51,6 +51,18 @@ Post message test<br/>
 	<input type="submit" value="post message">
 </form>
 
+get message by email<br/>
+<form name="getmessagesemail" action="/get_user_messages_by_email" method="post">
+	<label for="recipient">email:<input type="text" name="email"><br/>
+	<input type="submit" value="get message">
+</form>
+
+get message by token<br/>
+<form name="getmessagetoken" action="/get_user_messages_by_token" method="post">
+	<label for="recipient">token:<input type="text" name="token"><br/>
+	<input type="submit" value="get message">
+</form>
+
 
 </body>
 </html>

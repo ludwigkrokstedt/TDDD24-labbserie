@@ -84,20 +84,27 @@ def get_user_messages_by_email():
         if result['success']:
 
             u_messages = database_helper.get_user_messages_by_email(app, email)
-            ## NOT SURE WHAT TO DO HERE
-            return u_messages["message"]
+            return u_messages["data"]
 
         else:
-            return "ERROR:"+result['data']
+            return "ERROR:"+result['message']
     else:
         return "ERROR - NO TOKEN IN SESSION (origin: get_user_messages_by_email)"
 
 @app.route('/get_user_messages_by_token', methods=['POST'])
 def get_user_messages_by_token():
     if 'token' in session:
-        token = session['token']
-        ## use getusermessagesbyemail to get this email...
-    return "Somestring"
+
+        token = request.form['token']
+
+        email = database_helper.token_to_email(app,token)
+        u_messages = database_helper.get_user_messages_by_email(app, email)
+
+        return u_messages["data"]
+
+    else:
+        return "NO TOKEN IN SESSION"
+
 
 @app.route('/signin', methods=['POST', 'GET'])
 def signIn():
@@ -216,7 +223,12 @@ def ludde():
     ## hash password
     message4 = encode(SECRET_KEY, "a")
 
-    return "w_loggedinuser: " + str(message1["success"]) + " nw_loggedinuser: " + str(message2["success"]) + "u_credentials: " + message3["message"] + "encoded a: " + message4
+    ## get messages by email
+
+    message5 = database_helper.get_user_messages_by_email(app, "test@user")
+    print(message5["data"])
+
+    return message5["message"] + " " + message5["data"]
 
 if __name__ == '__main__':
     #Secret key must be set to use sessions
