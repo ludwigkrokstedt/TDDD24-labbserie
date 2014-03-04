@@ -85,6 +85,13 @@ def get_user_messages_by_email():
     else:
         return "ERROR - NO TOKEN IN SESSION (origin: get_user_messages_by_email)"
 
+@app.route('/get_user_messages_by_token', methods=['POST'])
+def get_user_messages_by_token():
+    if 'token' in session:
+        token = session['token']
+        ## use getusermessagesbyemail to get this email...
+    return "Somestring"
+
 @app.route('/signin', methods=['POST', 'GET'])
 def signIn():
     error = 'ERROR LOGGING IN'
