@@ -92,6 +92,10 @@ def get_user_messages_by_email():
 
         if result['success']:
 
+            if len(email) == 36:
+                email = database_helper.token_to_email(app,email)
+                print("assuming token inserted")
+
             u_messages = database_helper.get_user_messages_by_email(app, email)
             return u_messages["data"]
 
