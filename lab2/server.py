@@ -21,13 +21,18 @@ def hello_world():
 def post_message():
     if 'token' in session:
 
-        token = session['token']
-        recipient = request.form['recipient']
-        message = request.form['message']
+        #DATABASE check if token is logged in
+        result = database_helper.check_logged_in_user(app, session['token'])
+        if result['success']:
 
-        result = database_helper.post_message(app, recipient, database_helper.token_to_email(app,token), message)
 
-        return result["message"]
+            token = session['token']
+            recipient = request.form['recipient']
+            message = request.form['message']
+
+            result = database_helper.post_message(app, recipient, database_helper.token_to_email(app,token), message)
+
+            return result["message"]
 
     else:
         return "NO TOKEN IN SESSION"
@@ -49,6 +54,8 @@ def get_user_data_by_email():
         token = session['token']
         email = request.form['email']
 
+        #DATABASE check if token is logged in
+        #DATABASE get user data from email
         result = database_helper.check_logged_in_user(app, token)
 
         if result['success']:
