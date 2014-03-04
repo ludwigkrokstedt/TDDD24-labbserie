@@ -21,8 +21,11 @@ def get_user_data_by_token():
     email = database_helper.token_to_email(token)
 
 
-
-    #DATABASE - get user data by email
+    #DATABASE check if token is logged in
+    result = database_helper.check_logged_in_user(app, token)
+    if result['success']:
+        userdata =
+        #DATABASE - get user data by email
 
     return "get user data"
 
@@ -31,6 +34,7 @@ def get_user_data_by_email():
     if 'token' in session:
         token = session['token']
         email = request.form['email']
+
 
         #DATABASE check if token is logged in
         #DATABASE get user data from email
@@ -51,11 +55,6 @@ def get_user_messages_by_email():
 
         return "messages got from database: "
 
-
-def token_to_email(token):
-    #DATABASE
-    email = "some@email.com"
-    return email
 
 @app.route('/signin', methods=['POST', 'GET'])
 def signIn():
