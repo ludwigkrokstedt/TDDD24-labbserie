@@ -239,6 +239,25 @@ def ludde():
 
     return str(len("qZigX3eSMGYoIEymDEBwHYw4uGnHLuZ8dH7R"))
 
+@app.route('/change_password', methods=['POST'])
+def change_password():
+
+    if 'token' in session:
+        error = 'ERROR CHANGING PASSWORD'
+        token = session['token']
+        old_pwd = encode(SECRET_KEY, request.form['oldpwd'])
+        email = database_helper.token_to_email(app, token)
+
+        #if database_helper.check_user_credentials(app, email, old_pwd)['success']:
+        if True:
+            new_pwd = encode(SECRET_KEY, request.form['newpwd'])
+            database_helper.change_user_pwd(app, email, new_pwd)
+            return "Pwd successfully changed"
+        else:
+            return "old_pwd not in DB"
+
+
+
 if __name__ == '__main__':
     #Secret key must be set to use sessions
     app.secret_key = SECRET_KEY

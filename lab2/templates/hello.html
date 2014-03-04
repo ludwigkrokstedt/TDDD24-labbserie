@@ -32,18 +32,21 @@ Sign up test <br/>
 	<br/>				
 </form>	
 
+</br></br>
 User data by email test <br/>
 <form name="getuserdata" action="/get_user_data_by_email" method="post">
 	<label for="email">Email:<input type="text" name="email"><br/>
 	<input type="submit" value="get user data">
 </form>
 
+</br></br>
 User data by token test <br/>
 <form name="gettokendata" action="/get_user_data_by_token" method="post">
 	<label for="token">Token:<input type="text" name="token"><br/>
 	<input type="submit" value="get user data">
 </form>
 
+</br></br>
 Post message test<br/>
 <form name="postmessage" action="/post_message" method="post">
 	<label for="recipient">Recipient:<input type="text" name="recipient"><br/>
@@ -51,16 +54,26 @@ Post message test<br/>
 	<input type="submit" value="post message">
 </form>
 
+</br></br>
 get message by email<br/>
 <form name="getmessagesemail" action="/get_user_messages_by_email" method="post">
 	<label for="recipient">email:<input type="text" name="email"><br/>
 	<input type="submit" value="get message">
 </form>
 
+</br></br>
 get message by token<br/>
 <form name="getmessagetoken" action="/get_user_messages_by_token" method="post">
 	<label for="recipient">token:<input type="text" name="token"><br/>
 	<input type="submit" value="get message">
+</form>
+
+</br></br>
+Change password<br/>
+<form name="changepwd" action="/change_password" method="post">
+	<label for="oldpwd">old password:<input type="text" name="oldpwd"><br/>
+	<label for="newpwd">new password:<input type="text" name="newpwd"><br/>
+	<input type="submit" value="Change">
 </form>
 
 

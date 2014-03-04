@@ -183,5 +183,14 @@ def sign_in(app, email, token):
         conn.commit()
 
         return {"success": True, "message": "successfully logged in!"}
+
+def change_user_pwd(app, email, new_password):
+    with app.app_context():
+        conn = sqlite3.connect(DATABASE)
+        c = conn.cursor()
+
+        c.execute("UPDATE users SET password='"+new_password+"' WHERE email='"+email+"' ")
+        conn.commit()
+
 # Note: the implementation of the functions has been removed on purpose.
 
