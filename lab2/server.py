@@ -15,8 +15,12 @@ def hello_world():
         return render_template('hello.html', token = session['token'])
     return render_template('hello.html', message="")
 
+@app.route('/demonstration')
+def demonstration():
+    if 'token' in session:
+        return render_template('secret_hideout.html', token = session['token'])
+    return render_template('secret_hideout.html', message="")
 
-## OTESTAD FUNKTION
 @app.route('/post_message', methods=['POST'])
 def post_message():
     if 'token' in session:
@@ -28,6 +32,11 @@ def post_message():
 
             token = session['token']
             recipient = request.form['recipient']
+
+            ## if 36 chars, assuming token inserted.
+            if len(recipient) == 36:
+                recipient = database_helper.token_to_email(app,recipient)
+
             message = request.form['message']
 
             result = database_helper.post_message(app, recipient, database_helper.token_to_email(app,token), message)
@@ -228,7 +237,7 @@ def ludde():
     message5 = database_helper.get_user_messages_by_email(app, "test@user")
     print(message5["data"])
 
-    return message5["message"] + " " + message5["data"]
+    return str(len("qZigX3eSMGYoIEymDEBwHYw4uGnHLuZ8dH7R"))
 
 if __name__ == '__main__':
     #Secret key must be set to use sessions
