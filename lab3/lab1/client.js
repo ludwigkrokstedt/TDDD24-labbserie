@@ -23,11 +23,40 @@ function showProfileView() {
 	updateUserInfo();
 }
 
+function sendPostRequest(url,params) {
+
+var http = new XMLHttpRequest();
+http.open("POST", url, true);
+
+//Send the proper header information along with the request
+http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+//http.setRequestHeader("Content-length", params.length);
+//http.setRequestHeader("Connection", "close");
+
+http.onreadystatechange = function() {//Call a function when the state changes.
+    if(http.readyState == 4 && http.status == 200) {
+        console.log(http.responseText);
+		//do something with data here
+		//JSON.parse(xmlhttp.responseText)
+    }
+	else if(http.readyState == 4 && http.status == 404) {
+		console.log("404: page not found");
+	}
+	else {
+		console.log("readystatechange to: " + http.readyState);
+	}
+}
+
+http.send(params);
+// state changes!	
+
+}
 
 function findUser(form) {
 	
 	email = form.email.value;
-	
+	//replace with xmlhtml
+	sendPostRequest("http://localhost/get_user_data_by_email","token=12345&email=test@user")
 	result = serverstub.getUserMessagesByEmail(localStorage.token, email);
 	
 	
@@ -49,9 +78,11 @@ function findUser(form) {
 function sendMessage(form) {
 	
 	//have to select the email
+	//replace with xmlhtml
 	uemail = serverstub.getUserDataByToken(localStorage.token).data.email;
 	
 	//post message
+	//replace with xmlhtml
 	result = serverstub.postMessage(localStorage.token,form.message.value,uemail);
 	
 	if (result.success) {
@@ -65,6 +96,7 @@ function sendMessage(form) {
 //present/update the user's static info
 function updateUserInfo() {
 	
+	//replace with xmlhtml
 	result = serverstub.getUserDataByToken(localStorage.token).data;
 	
 	html = "";
@@ -80,6 +112,7 @@ function updateUserInfo() {
 //updates the user's home wall
 function updateHomeWall() {
 
+	//replace with xmlhtml
 	result = serverstub.getUserMessagesByToken(localStorage.token);
 	
 	document.getElementById('messageboard').innerHTML="";
@@ -98,7 +131,8 @@ function updateHomeWall() {
 function updateBrowseWall() {
 
 	if (localStorage.browse != null) {
-	
+		
+		//replace with xmlhtml
 		result = serverstub.getUserMessagesByEmail(localStorage.token,localStorage.browse)
 		
 		if (result.success) {
@@ -122,6 +156,7 @@ function updateBrowseWall() {
 
 function updateBrowseInfo() {
 
+	//replace with xmlhtml
 	result = serverstub.getUserDataByEmail(localStorage.token,localStorage.browse).data;
 	
 	
@@ -137,6 +172,7 @@ function updateBrowseInfo() {
 function sendBrowseMessage(form) {
 	
 	//post message
+	//replace with xmlhtml
 	result = serverstub.postMessage(localStorage.token,form.message.value,localStorage.browse);
 	
 	if (result.success) {
@@ -166,6 +202,7 @@ function logOut() {
 function validateSignIn(form) {
 	if (validate(form)) {
 		
+		//replace with xmlhtml
 		result = serverstub.signIn(form.email.value,form.password.value);
 		//set the message1-span to display error message
 		console.log(result['success']);
@@ -206,6 +243,7 @@ function validateSignUp(form) {
 		formResult.country = form.country.value;
 		
 		//send JSON signup request to server
+		//replace with xmlhtml
 		result = serverstub.signUp(formResult);
 		
 		//set the message2-span to display error message
