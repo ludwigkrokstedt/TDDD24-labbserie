@@ -50,16 +50,16 @@ def get_user_data_by_email(app, email):
 
         conn = sqlite3.connect(DATABASE)
         cursor = conn.execute("SELECT * from users where email='"+email+"'")
-        result = {"succes": False, "data": "No user found"}
+        result = {"success": False, "data": "No user found"}
 
         for row in cursor:
-            result["data"] = "email: " + row[1]
-            result["data"] += " password: " + row[2]
-            result["data"] += " firstname: " + row[3]
-            result["data"] += " familyname: " + row[4]
-            result["data"] += " gender: " + row[5]
-            result["data"] += " city: " + row[6]
-            result["data"] += " country: " + row[7]
+            result["data"] = row[1]
+            result["data"] += "#" + row[2]
+            result["data"] += "#" + row[3]
+            result["data"] += "#" + row[4]
+            result["data"] += "#" + row[5]
+            result["data"] += "#" + row[6]
+            result["data"] += "#" + row[7]
             result["success"] = True
 
         conn.commit()
@@ -143,12 +143,13 @@ def get_user_messages_by_email(app, email):
 
         cursor = conn.execute("SELECT * from messages where recipient='"+email+"'")
 
-        result = {"success": False, "data": [],"message": "No such user"}
+        result = {"success": False, "data": {},"message": "No such user"}
 
-        messages = ""
+        messages = {"writer": "","content": ""}
         i=1
         for row in cursor:
-            messages += "    " + str(i) + ": writer: " + row[2] + " content: " + row[3]
+            messages.writer += "#" + row[2]
+            messages.content += "#" + row[3]
             result["success"] = True
             result["message"] = "Messages retrieved!"
             i=i+1
@@ -161,7 +162,7 @@ def get_user_messages_by_email(app, email):
 
 
 
-def test_log_out_user(app, token):
+def log_out_user(app, token):
     with app.app_context():
         conn = sqlite3.connect(DATABASE)
         c = conn.cursor()

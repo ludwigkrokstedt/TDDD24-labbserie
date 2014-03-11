@@ -41,10 +41,10 @@ def post_message():
 
             result = database_helper.post_message(app, recipient, database_helper.token_to_email(app,token), message)
 
-            return result["message"]
+            return result
 
     else:
-        return "NO TOKEN IN SESSION"
+        return {"success": False, "message": "NO TOKEN IN SESSION"}
 @app.route('/get_user_data_by_token', methods=['POST'])
 def get_user_data_by_token():
     if 'token' in session:
@@ -52,10 +52,10 @@ def get_user_data_by_token():
         email = database_helper.token_to_email(app, token)
 
         result = database_helper.get_user_data_by_email(app,email)
-        return result["data"]
+        return result
 
     else:
-        return "NO TOKEN IN SESSION"
+        return {"success":False,"data":"There was no token in session"}
 
 @app.route('/get_user_data_by_email', methods=['POST'])
 def get_user_data_by_email():
@@ -72,15 +72,15 @@ def get_user_data_by_email():
             u_data=database_helper.get_user_data_by_email(app,email)
 
             if u_data['success']:
-                return u_data["data"]
+                return u_data
             else:
-                return "Error fetching user data"
+                return u_data
 
         else:
-            return "Error:"+result['data']
+            return result
 
     else:
-        return "ERROR - NO TOKEN IN SESSION (origin: get_user_data_by_email)"
+        return {"success": False, "data" : "No token in session"}
 
 @app.route('/get_user_messages_by_email', methods=['POST'])
 def get_user_messages_by_email():
@@ -97,12 +97,12 @@ def get_user_messages_by_email():
                 print("assuming token inserted")
 
             u_messages = database_helper.get_user_messages_by_email(app, email)
-            return u_messages["data"]
+            return u_messages
 
         else:
-            return "ERROR:"+result['message']
+            return result
     else:
-        return "ERROR - NO TOKEN IN SESSION (origin: get_user_messages_by_email)"
+        return {"success": False, "message": "ERROR - NO TOKEN IN SESSION (origin: get_user_messages_by_email)"}
 
 @app.route('/get_user_messages_by_token', methods=['POST'])
 def get_user_messages_by_token():
@@ -113,10 +113,10 @@ def get_user_messages_by_token():
         email = database_helper.token_to_email(app,token)
         u_messages = database_helper.get_user_messages_by_email(app, email)
 
-        return u_messages["data"]
+        return u_messages
 
     else:
-        return "NO TOKEN IN SESSION"
+        return {"success": False, "message":"NO TOKEN IN SESSION"}
 
 
 @app.route('/signin', methods=['POST', 'GET'])
@@ -146,21 +146,23 @@ def signIn():
                     not_updated = False
 
             session['token']=token
-            return redirect('/')
+            return result
 
         else:
-            error = cred_result["message"]
+           return cred_result
 
-    return error
+    return {"success": False, "message": "GET METHOD NOT ALLOWED LOGGING IN"}
 
 @app.route('/logout')
 def logout():
 
-    if (database_helper.test_log_out_user(app, session['token'])['success']):
+    result = database_helper.log_out_user(app, session['token'])
+
+    if (result['success']):
         session.pop('token', None)
-        return redirect('/')
-    else:
-        return "error while logging out - couldn't pop token from session"
+
+    return result
+
 
 @app.route('/sign_up', methods=['POST'])
 def new_user():
@@ -185,14 +187,11 @@ def new_user():
         result = database_helper.sign_up(app, email, hp,firstname,familyname,gender,city,country)
 
         ## Do different depending on result
-        if result['success']:
-            return render_template('hello.html', message = result['message'])
-        else:
-            return result['message']
+        return result
 
     else:
         ##passwords doesn't match
-        return render_template('hello.html', message = "Passwords doesn't match")
+        return {"success":False,"message":"Passwords doesn't match"}
 
 
 @app.teardown_appcontext
@@ -202,7 +201,7 @@ def teardown_app(exception):
 @app.route('/init')
 def init():
     database_helper.init_db(app);
-    return render_template('hello.html',message = "database initiated")
+    return {"success": True, "message": "Database initiated"}
 
 def encode(key, clear):
     enc = []
@@ -252,13 +251,12 @@ def change_password():
         old_pwd = encode(SECRET_KEY, request.form['oldpwd'])
         email = database_helper.token_to_email(app, token)
 
-        #if database_helper.check_user_credentials(app, email, old_pwd)['success']:
-        if True:
+        if database_helper.check_user_credentials(app, email, old_pwd)['success']:
             new_pwd = encode(SECRET_KEY, request.form['newpwd'])
             database_helper.change_user_pwd(app, email, new_pwd)
-            return "Pwd successfully changed"
+            return {"success": True, "message": "Password changed!"}
         else:
-            return "old_pwd not in DB"
+            return {"success": False, "message":"old_pwd not in DB"}
 
 
 
