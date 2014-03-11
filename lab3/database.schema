@@ -1,0 +1,33 @@
+
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS messages;
+DROP TABLE IF EXISTS loggedInUsers;
+
+CREATE TABLE users(
+id INT AUTO INCREMENT,
+email VARCHAR(30),
+password VARCHAR(50),
+firstname VARCHAR(30),
+familyname VARCHAR(30),
+gender VARCHAR(30),
+city VARCHAR(30),
+country VARCHAR(30),
+PRIMARY KEY(id)
+);
+
+CREATE TABLE messages(
+id INT AUTO INCREMENT,
+recipient VARCHAR(30),
+writer VARCHAR(30),
+content VARCHAR(30),
+PRIMARY KEY(id)
+);
+
+CREATE TABLE loggedInUsers(
+token VARCHAR(36),
+email VARCHAR(30),
+PRIMARY KEY(token)
+);
+
+INSERT INTO users (id, email, password, firstname, familyname, gender, city, country) VALUES (null, 'test@user', '1w==', 'test', 'user', 'male', 'somecity', 'somecountry');
+INSERT INTO loggedInUsers(token,email) VALUES ('12345','test@user');

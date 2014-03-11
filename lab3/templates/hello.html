@@ -1,0 +1,83 @@
+<html>
+<body>
+
+{{  message  }} <br/>
+Your token is:  {{  token  }} <br/>
+
+<a href="/demonstration">Demonstration</a><br/>
+<a href="/logout">Log Out</a><br/>
+<a href="/init">Initiate database!</a><br/>
+<a href="/ludde">Ludde Test</a><br/>
+
+Sign in test (PASSWORD FOR TESTUSER IS "a")<br/>
+<form action="/signin" method="post">
+email: <input type="text" name="email"><br>
+password: <input type="password" name="password"><br>
+<input type="submit">
+</form>
+
+Sign up test <br/>
+<form name="signupform" action="/sign_up" method="post">
+	<label for="username">Username:</label> <input type="text" name="email"><br/>
+	<label for="password">Password:</label> <input type="password" name="password"><br/>
+	<label for="password2">Repeat PWD:</label><input type="password" name="password2"><br/>
+	<label for="name">First Name:</label> <input type="text" name="firstname"><br/>
+	<label for="fname">Family Name:</label> <input type="text" name="familyname"><br/>
+	<label for="gender">Gender:</label>
+	<select name="gender" id="gender">
+  			<option value="male">Male</option>
+  			<option value="female">Female</option>
+	</select> <br/>
+	<label for="city">City:</label> <input type="text" name="city"><br/>
+	<label for="country">County:</label> <input type="text" name="country"><br/>
+	<input type="submit" value="Sign up"> 
+	<br/>				
+</form>	
+
+</br></br>
+User data by email test <br/>
+<form name="getuserdata" action="/get_user_data_by_email" method="post">
+	<label for="email">Email:<input type="text" name="email"><br/>
+	<input type="submit" value="get user data">
+</form>
+
+</br></br>
+User data by token test <br/>
+<form name="gettokendata" action="/get_user_data_by_token" method="post">
+	<label for="token">Token:<input type="text" name="token"><br/>
+	<input type="submit" value="get user data">
+</form>
+
+</br></br>
+Post message test<br/>
+<form name="postmessage" action="/post_message" method="post">
+	<label for="recipient">Recipient:<input type="text" name="recipient"><br/>
+	<label for="message">Message:<input type="text" name="message"><br/>
+	<input type="submit" value="post message">
+</form>
+
+</br></br>
+get message by email<br/>
+<form name="getmessagesemail" action="/get_user_messages_by_email" method="post">
+	<label for="recipient">email:<input type="text" name="email"><br/>
+	<input type="submit" value="get message">
+</form>
+
+</br></br>
+get message by token<br/>
+<form name="getmessagetoken" action="/get_user_messages_by_token" method="post">
+	<label for="recipient">token:<input type="text" name="token"><br/>
+	<input type="submit" value="get message">
+</form>
+
+</br></br>
+Change password<br/>
+<form name="changepwd" action="/change_password" method="post">
+	<label for="oldpwd">old password:<input type="text" name="oldpwd"><br/>
+	<label for="newpwd">new password:<input type="text" name="newpwd"><br/>
+	<input type="submit" value="Change">
+</form>
+
+
+</body>
+</html>
