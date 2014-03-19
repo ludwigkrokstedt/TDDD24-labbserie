@@ -18,6 +18,7 @@ def hello_world():
 
     return render_template('client.html')
 
+##OLD ROUTE FOR DEMONSTRATING LAB 2
 @app.route('/demonstration')
 def demonstration():
     if 'token' in session:
@@ -97,15 +98,14 @@ def get_user_messages_by_email():
 
             if len(email) == 36:
                 email = database_helper.token_to_email(app,email)
-                print("assuming token inserted")
 
             u_messages = database_helper.get_user_messages_by_email(app, email)
-            return u_messages
+            return jsonify(u_messages)
 
         else:
-            return result
+            return jsonify(result)
     else:
-        return {"success": False, "message": "ERROR - NO TOKEN IN SESSION (origin: get_user_messages_by_email)"}
+        return jsonify({"success": False, "message": "ERROR - NO TOKEN IN SESSION (origin: get_user_messages_by_email)"})
 
 @app.route('/get_user_messages_by_token', methods=['POST'])
 def get_user_messages_by_token():
@@ -204,7 +204,7 @@ def teardown_app(exception):
 @app.route('/init')
 def init():
     database_helper.init_db(app);
-    return {"success": True, "message": "Database initiated"}
+    return jsonify({"success": True, "message": "Database initiated"})
 
 def encode(key, clear):
     enc = []
@@ -222,28 +222,6 @@ def decode(key, enc):
         dec_c = chr((256 + ord(enc[i]) - ord(key_c)) % 256)
         dec.append(dec_c)
     return "".join(dec)
-
-@app.route('/ludde')
-def ludde():
-
-    ## check logged in user
-    message1 = database_helper.check_logged_in_user(app, "12345")
-    message2 = database_helper.check_logged_in_user(app, "1111")
-
-    ## check user credentials
-    email = "test@user"
-    password = "asd"
-    message3 = database_helper.check_user_credentials(app, email, password)
-
-    ## hash password
-    message4 = encode(SECRET_KEY, "a")
-
-    ## get messages by email
-
-    message5 = database_helper.get_user_messages_by_email(app, "test@user")
-    print(message5["data"])
-
-    return str(len("qZigX3eSMGYoIEymDEBwHYw4uGnHLuZ8dH7R"))
 
 @app.route('/change_password', methods=['POST'])
 def change_password():

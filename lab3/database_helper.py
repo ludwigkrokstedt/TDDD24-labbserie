@@ -143,16 +143,24 @@ def get_user_messages_by_email(app, email):
 
         cursor = conn.execute("SELECT * from messages where recipient='"+email+"'")
 
-        result = {"success": False, "data": {},"message": "No such user"}
+        result = {"success": False, "data": {},"message": "No such user or no messages available"}
 
         messages = {"writer": "","content": ""}
-        i=1
+
+        #made these rows super stupid since there was something
+        # wrong with the dictionary object.
+
+        w = ""
+        c = ""
+
         for row in cursor:
-            messages.writer += "#" + row[2]
-            messages.content += "#" + row[3]
+            w += row[2] + "#"
+            c += row[3] + "#"
             result["success"] = True
             result["message"] = "Messages retrieved!"
-            i=i+1
+
+        messages["writer"] = w
+        messages["content"] = c
 
         result["data"] = messages
 

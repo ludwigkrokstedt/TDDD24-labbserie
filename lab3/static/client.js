@@ -23,7 +23,7 @@ function showProfileView() {
 	updateUserInfo();
 }
 
-function sendPostRequest(url,params) {
+function sendPostRequest(method,url,params) {
 
 var http = new XMLHttpRequest();
 http.open("POST", url, true);
@@ -35,20 +35,69 @@ http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
 http.onreadystatechange = function() {//Call a function when the state changes.
     if(http.readyState == 4 && http.status == 200) {
-        console.log(http.responseText);
+        //console.log(http.responseText);
 		//do something with data here
-		//JSON.parse(xmlhttp.responseText)
-    }
+		res = JSON.parse(http.responseText)
+		
+		console.log(method + " method called!");
+		
+		if(res.success) {
+			//do different depending on called method, implement as more methods are added
+			switch(method){
+				case "findUser":
+					//set the browse variable to tell what person the user is looking at
+					localStorage.browse = params.split("&email=")[1];
+					
+					//split and store the user data
+					data = res.data.split("#");
+
+					dict = {
+					"email" : data[0],
+					"firstname" : data[2],
+					"familyname" : data[3],
+					"gender" : data[4],
+					"city" : data[5],
+					"country" : data[6]
+					};
+				
+					localStorage.browseinfo = JSON.stringify(dict);
+					
+					//
+					updateBrowseInfo();
+					
+					
+					sendPostRequest("findUserMessages","http://localhost:5000/get_user_messages_by_email","token="+localStorage.token+"&email="+localStorage.browse);
+					
+					//updateBrowseWall();
+					break;
+				
+				case "findUserMessages":
+					
+					console.log(res.data.content.split("#"));
+					//here is where i am!
+					
+					
+					
+					break;
+				
+				default:
+					console.log("no correct method called in server, do nothing!");
+					break;
+			}
+		
+		}
+		else {
+			console.log(res.message);
+		}
+
+	
+	}
 	else if(http.readyState == 4 && http.status == 404) {
 		console.log("404: page not found");
 	}
-	else {
-		console.log("readystatechange to: " + http.readyState);
-	}
 }
 
-http.send(params);
-// state changes!	
+http.send(params);	
 
 }
 
@@ -56,20 +105,7 @@ function findUser(form) {
 	
 	email = form.email.value;
 	//replace with xmlhtml
-	sendPostRequest("http://localhost:5000/get_user_data_by_email","token=12345&email=test@user")
-	result = serverstub.getUserMessagesByEmail(localStorage.token, email);
-	
-	
-	if (result.success) {
-		localStorage.browse = email;
-		updateBrowseWall();
-		updateBrowseInfo();
-	}
-	else {
-		console.log(result.message);
-	}
-	
-	
+	sendPostRequest("findUser","http://localhost:5000/get_user_data_by_email","token="+localStorage.token+"&email="+email);
 	
 	return false;
 }
@@ -130,10 +166,12 @@ function updateHomeWall() {
 
 function updateBrowseWall() {
 
-	if (localStorage.browse != null) {
+	if (localStorage.browse != null && localStorage.browseMessages != null) {
 		
 		//replace with xmlhtml
-		result = serverstub.getUserMessagesByEmail(localStorage.token,localStorage.browse)
+		result = localStorage.browseMessages;
+		//result = serverstub.getUserMessagesByEmail(localStorage.token,localStorage.browse)
+		
 		
 		if (result.success) {
 		
@@ -149,7 +187,7 @@ function updateBrowseWall() {
 		
 	}
 	else {
-		console.log("LS.browse is not set during update browse wall");
+		console.log("ERROR: There is no browse or messages in localStorage, have you cleared the data recently?");
 	}
 
 }
@@ -157,7 +195,7 @@ function updateBrowseWall() {
 function updateBrowseInfo() {
 
 	//replace with xmlhtml
-	result = serverstub.getUserDataByEmail(localStorage.token,localStorage.browse).data;
+	result = JSON.parse(localStorage.browseinfo);
 	
 	
 	html = "";

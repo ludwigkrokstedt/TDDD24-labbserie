@@ -35,15 +35,10 @@ http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
 http.onreadystatechange = function() {//Call a function when the state changes.
     if(http.readyState == 4 && http.status == 200) {
-        console.log(http.responseText);
-		//do something with data here
-		//JSON.parse(xmlhttp.responseText)
+		return http.responseText;
     }
 	else if(http.readyState == 4 && http.status == 404) {
 		console.log("404: page not found");
-	}
-	else {
-		console.log("readystatechange to: " + http.readyState);
 	}
 }
 
@@ -56,7 +51,10 @@ function findUser(form) {
 	
 	email = form.email.value;
 	//replace with xmlhtml
-	sendPostRequest("http://localhost/get_user_data_by_email","token=12345&email=test@user")
+	res = sendPostRequest("http://localhost/get_user_data_by_email","token="+localStorage.token"&email="+email);
+	
+	console.log(res.data);
+	console.log(res.success);
 	
 	result = serverstub.getUserMessagesByEmail(localStorage.token, email);
 	

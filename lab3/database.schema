@@ -31,3 +31,5 @@ PRIMARY KEY(token)
 
 INSERT INTO users (id, email, password, firstname, familyname, gender, city, country) VALUES (null, 'test@user', '1w==', 'test', 'user', 'male', 'somecity', 'somecountry');
 INSERT INTO loggedInUsers(token,email) VALUES ('12345','test@user');
+INSERT INTO messages(id,recipient,writer,content) VALUES (null, 'test@user', 'DAEMON', 'hello this is a test message');
+INSERT INTO messages(id,recipient,writer,content) VALUES (null, 'test@user', 'DAEMON', 'hello this is another test message');
