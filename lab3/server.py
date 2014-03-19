@@ -1,6 +1,6 @@
 # the server module provides the capability to save, get and remove phone contacts using database_helper module.
 import base64
-from flask import Flask,session, render_template, request, redirect, flash
+from flask import Flask,session, render_template, request, redirect, flash,jsonify
 import database_helper, random
 #more required imports
 
@@ -9,11 +9,14 @@ app.config['DEBUG'] = True
 
 SECRET_KEY = 'verysecretkey!23X'
 
-@app.route('/')
+@app.route('/', methods=['POST', 'GET'])
 def hello_world():
     if 'token' in session:
-        return render_template('hello.html', token = session['token'])
-    return render_template('hello.html', message="")
+        return render_template('client.html')
+
+    session['token'] = '12345' #set the token to test user - REMOVE LATER
+
+    return render_template('client.html')
 
 @app.route('/demonstration')
 def demonstration():
@@ -72,15 +75,15 @@ def get_user_data_by_email():
             u_data=database_helper.get_user_data_by_email(app,email)
 
             if u_data['success']:
-                return u_data
+                return jsonify(u_data)
             else:
-                return u_data
+                return jsonify(u_data)
 
         else:
-            return result
+            return jsonify(result)
 
     else:
-        return {"success": False, "data" : "No token in session"}
+        return jsonify({"success": False, "data" : "No token in session"})
 
 @app.route('/get_user_messages_by_email', methods=['POST'])
 def get_user_messages_by_email():

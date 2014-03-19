@@ -1,0 +1,111 @@
+body {
+	background-color: #8CD8C0;
+}
+
+label {
+	position: absolute;
+	left: 5px;
+}
+
+input {
+margin-right: 5px;
+border: 1px solid black;
+}
+
+#leftpane {
+
+	position: absolute;
+	left: 50%;
+	float: left;
+	margin-top: 100px;
+	margin-left: -340px;
+	width: 340px;
+	height: 400px;
+	background-image: url('wimage.png');
+	border: 1px solid black;
+	
+	}
+
+#rightpane {
+	position: absolute;
+	right: 50%;
+	float: left;
+	margin-right: -270px;
+	margin-top: 100px;
+	float: left;
+	width: 260px;
+	height: 400px;
+	text-align: right;
+	}
+
+#login {
+	padding-top:5px;
+	padding-bottom: 10px;
+	clear: right;
+	border: 1px solid black;
+	background: white;
+	height: 80px;
+	}
+	
+#message1 {
+	position: absolute;
+	left: 5px;
+}
+
+#signup {
+	margin-top: 5px;
+	clear: right;
+	border: 1px solid black;
+	background: white;
+	padding-bottom: 4px;
+	height: 295px;
+	}
+	
+
+#tabmenu {
+	font-weight:bold;
+	font-size:25px;
+	width: 90%;
+	background-color: white;
+	box-shadow: 8px 8px 3px #888888;
+	border-style:solid;
+	border-color:black;
+	border-width:1px;
+}
+
+#tabmenu ul
+{
+    margin: 0px;
+    padding: 0px;
+    list-style-type: none;
+    text-align: center;
+}
+
+#tabmenu li:hover
+{
+    background-color: #e4f6f0;
+}
+
+#tabmenu li
+{
+    float: left;
+    margin-right: 0.5em;
+    width: 7em;
+}
+
+.hidden {
+	display:none;
+}
+.unhidden	{
+	display:block;
+}
+
+.tablemessage {
+	border: 1px dotted blue;
+	margin: 10px;
+}
+
+.tablemessage td, tr{
+	border: none;
+	padding-right: 10px;
+}

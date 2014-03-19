@@ -56,8 +56,7 @@ function findUser(form) {
 	
 	email = form.email.value;
 	//replace with xmlhtml
-	sendPostRequest("http://localhost/get_user_data_by_email","token=12345&email=test@user")
-	
+	sendPostRequest("http://localhost:5000/get_user_data_by_email","token=12345&email=test@user")
 	result = serverstub.getUserMessagesByEmail(localStorage.token, email);
 	
 	
