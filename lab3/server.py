@@ -187,11 +187,11 @@ def new_user():
         result = database_helper.sign_up(app, email, hp,firstname,familyname,gender,city,country)
 
         ## Do different depending on result
-        return result
+        return jsonify(result)
 
     else:
         ##passwords doesn't match
-        return {"success":False,"message":"Passwords doesn't match"}
+        return jsonify({"success":False,"message":"Passwords doesn't match"})
 
 
 @app.teardown_appcontext

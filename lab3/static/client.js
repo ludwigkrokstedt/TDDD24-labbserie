@@ -34,7 +34,7 @@ http.onreadystatechange = function() {//Call a function when the state changes.
 		//do something with data here
 		res = JSON.parse(http.responseText)
 		
-		console.log(method + " method called!");
+		//console.log(method + " method called!");
 		
 			//do different depending on called method, implement as more methods are added
 		switch(method){
@@ -153,6 +153,40 @@ http.onreadystatechange = function() {//Call a function when the state changes.
 				} else {
 				console.log(res.message);
 				}
+				break;
+				
+			case "signUp":
+				
+				document.getElementById('message2').innerHTML = res['message'];
+				form = document.getElementById('signupform');
+				
+				if (res['success']) {
+					
+					console.log(res.message);
+					
+					form.email.value="";
+					form.password.value="";
+					form.password2.value="";
+					form.firstname.value="";
+					form.familyname.value="";
+					form.gender.value="";
+					form.city.value="";
+					form.country.value="";
+					
+				}
+				
+				else { //redborder all cells in sign up if unsuccessful
+					
+					redborder(form.email);
+					redborder(form.password);
+					redborder(form.password2);
+					redborder(form.firstname);
+					redborder(form.familyname);
+					redborder(form.gender);
+					redborder(form.city);
+					redborder(form.country);
+				}
+						
 				break;
 				
 			default:
@@ -331,7 +365,6 @@ function validateSignIn(form) {
 		email = form.email.value;
 		password = form.password.value;
 		
-		console.log(email + password);
 		//replace with xmlhtml
 		sendPostRequest("signIn","http://localhost:5000/signin","email="+email+"&password="+password);
 		return false;
@@ -345,41 +378,26 @@ function validateSignUp(form) {
 	
 	if (validate(form) && compare_pwd(form)) {
 		
-
-		//construct the JSON object to send
-		formResult = {};
-		formResult.email = form.email.value;
-		formResult.password = form.password.value;
-		formResult.firstname = form.firstname.value;
-		formResult.familyname = form.familyname.value;
-		formResult.gender = form.gender.value;
-		formResult.city = form.city.value;
-		formResult.country = form.country.value;
 		
+		
+		//construct the JSON object to send
+		email = form.email.value;
+		password = form.password.value;
+		password2 = form.password2.value;
+		firstname = form.firstname.value;
+		familyname = form.familyname.value;
+		gender = form.gender.value;
+		city = form.city.value;
+		country = form.country.value;
+		
+		args = ("email="+email+"&password="+password+"&password2="+password2+"&firstname="+firstname+"&familyname="+familyname+"&gender="+gender+"&city="+city+"&country="+country).trim();
+
 		//send JSON signup request to server
 		//replace with xmlhtml
-		result = serverstub.signUp(formResult);
 		
-		//set the message2-span to display error message
-		document.getElementById('message2').innerHTML = result['message'];
+		sendPostRequest("signUp","http://localhost:5000/sign_up",args);
 		
-		if (result['success']) {
-			return false;
-		}
-		else { //redborder all cells in sign up if unsuccessful
-			
-			redborder(form.email);
-			redborder(form.password);
-			redborder(form.password2);
-			redborder(form.firstname);
-			redborder(form.familyname);
-			redborder(form.gender);
-			redborder(form.city);
-			redborder(form.country);
-			
-			return false;
-		}
-
+		return false;
 	}
 	
 	
@@ -414,11 +432,9 @@ function compare_pwd(form)	{
 	pwd2 = form.password2.value;
 	
 	if (pwd1===pwd2){
-		console.log("Password correct");
 		return true;
 	}
 	else{
-		console.log("Password wrong");
 		form.password.style.border="2px solid red";
 		form.password.value="";
 		form.password2.style.border="2px solid red";
