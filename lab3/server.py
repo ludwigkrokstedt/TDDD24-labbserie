@@ -149,12 +149,12 @@ def signIn():
                     not_updated = False
 
             session['token']=token
-            return result
+            return jsonify(result)
 
         else:
-           return cred_result
+           return jsonify(cred_result)
 
-    return {"success": False, "message": "GET METHOD NOT ALLOWED LOGGING IN"}
+    return jsonify({"success": False, "message": "GET METHOD NOT ALLOWED LOGGING IN"})
 
 @app.route('/logout')
 def logout():

@@ -121,7 +121,7 @@ def log_in_user(app, email, token):
 
         conn.commit()
 
-        return {"success": True, "message": "successfully logged in!"}
+        return {"success": True, "message": "successfully logged in!", "data": token}
 
 def post_message(app,recipient, writer, content):
     with app.app_context():

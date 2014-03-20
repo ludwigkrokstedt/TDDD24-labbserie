@@ -30,8 +30,6 @@ http.open("POST", url, true);
 
 //Send the proper header information along with the request
 http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-//http.setRequestHeader("Content-length", params.length);
-//http.setRequestHeader("Connection", "close");
 
 http.onreadystatechange = function() {//Call a function when the state changes.
     if(http.readyState == 4 && http.status == 200) {
@@ -46,35 +44,66 @@ http.onreadystatechange = function() {//Call a function when the state changes.
 			switch(method){
 				case "findUser":
 					//set the browse variable to tell what person the user is looking at
-					localStorage.browse = params.split("&email=")[1];
-					
-					//split and store the user data
-					data = res.data.split("#");
+					if(res.success) {
+						localStorage.browse = params.split("&email=")[1];
+						
+						//split and store the user data
+						data = res.data.split("#");
 
-					dict = {
-					"email" : data[0],
-					"firstname" : data[2],
-					"familyname" : data[3],
-					"gender" : data[4],
-					"city" : data[5],
-					"country" : data[6]
-					};
-				
-					localStorage.browseinfo = JSON.stringify(dict);
+						dict = {
+						"email" : data[0],
+						"firstname" : data[2],
+						"familyname" : data[3],
+						"gender" : data[4],
+						"city" : data[5],
+						"country" : data[6]
+						};
 					
-					//
-					updateBrowseInfo();
+						localStorage.browseinfo = JSON.stringify(dict);
+						
+						//
+						updateBrowseInfo();
+						
+						
+						sendPostRequest("findUserMessages","http://localhost:5000/get_user_messages_by_email","token="+localStorage.token+"&email="+localStorage.browse);
+					}
+					else {
+						console.log(res.message);
+					}
 					
-					
-					sendPostRequest("findUserMessages","http://localhost:5000/get_user_messages_by_email","token="+localStorage.token+"&email="+localStorage.browse);
 					
 					break;
 				
 				case "findUserMessages":
 					
-					localStorage.browseMessages = JSON.stringify(res.data);
+					if(res.success) {
+						localStorage.browseMessages = JSON.stringify(res.data);
+						updateBrowseWall();
+					}
+					else {
+						console.log(res.message);
+					}
 					
-					updateBrowseWall();
+					break;
+					
+				case "signIn":
+					
+					console.log("sign in request recieved from server!")
+
+					console.log(res);
+					//set the message1-span to display error message
+					document.getElementById('message1').innerHTML = res.message;
+					
+					//store token locally if success..
+					if (res['success']) {
+						localStorage.token=res.data;
+						location.reload();
+					}
+					else {
+						redborder(form.email);
+						redborder(form.password);
+					}
+						
 					
 					break;
 				
@@ -84,9 +113,7 @@ http.onreadystatechange = function() {//Call a function when the state changes.
 			}
 		
 		}
-		else {
-			console.log(res.message);
-		}
+
 
 	
 	}
@@ -168,7 +195,6 @@ function updateBrowseWall() {
 		
 		res = JSON.parse(localStorage.browseMessages);
 		
-		//reformat data to match update wall function
 		o = []
 		contentarr = res.content.split("#");
 		writerarr = res.writer.split("#");
@@ -241,27 +267,16 @@ function logOut() {
 }
 
 function validateSignIn(form) {
+	
 	if (validate(form)) {
 		
+		email = form.email.value;
+		password = form.password.value;
+		
+		console.log(email + password);
 		//replace with xmlhtml
-		result = serverstub.signIn(form.email.value,form.password.value);
-		//set the message1-span to display error message
-		console.log(result['success']);
-		document.getElementById('message1').innerHTML = result['message'];
-		
-		console.log("sign in request sent to server!");
-		
-		//store token locally if success..
-		if (result['success']) {
-			localStorage.token=result['data']
-			//return false;
-		}
-		else {
-			redborder(form.email);
-			redborder(form.password);
-			return false;
-		}
-		//return false;
+		sendPostRequest("signIn","http://localhost:5000/signin","email="+email+"&password="+password);
+		return false;
 	}
 	else {
 		return false;
