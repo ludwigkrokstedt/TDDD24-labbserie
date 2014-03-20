@@ -25,7 +25,6 @@ function sendPostRequest(method,url,params) {
 
 var http = new XMLHttpRequest();
 http.open("POST", url, true);
-
 //Send the proper header information along with the request
 http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
@@ -134,9 +133,28 @@ http.onreadystatechange = function() {//Call a function when the state changes.
 				} else {
 					console.log(res.message + " ; could not find a user bearing that token - have you sent a valid one?");
 				}
-				
 				break;
 			
+			case "postMessage":
+				if (res['success']) {
+					localStorage.removeItem('userMessages');
+					updateHomeWall();
+					document.getElementById("usermessage").value="";
+					document.getElementById("browsemsg").value="";
+				} else {
+					console.log(res.message);
+				}
+				break;
+				
+			case "logout":
+				if (res['success']) {
+				localStorage.clear();
+				location.reload();
+				} else {
+				console.log(res.message);
+				}
+				break;
+				
 			default:
 				console.log("no correct method called in server =>  do nothing!");
 				break;
@@ -152,37 +170,48 @@ http.onreadystatechange = function() {//Call a function when the state changes.
 	}
 }
 
-http.send(params);	
+if (params) {
+	http.send(params);	
+} else {
+	http.send()
+}
 
 }
 
 function findUser(form) {
 	
 	email = form.email.value;
-	//replace with xmlhtml
 	sendPostRequest("findUser","http://localhost:5000/get_user_data_by_email","token="+localStorage.token+"&email="+email);
 	
 	return false;
 }
 
-//sends message to own wall (for now)
+//sends message to own wall
 function sendMessage(form) {
 	
-	//have to select the email
-	//replace with xmlhtml
-	uemail = serverstub.getUserDataByToken(localStorage.token).data.email;
+	msg = form.message.value;
+	sendPostRequest("postMessage","http://localhost:5000/post_message","recipient="+localStorage.token+"&message="+msg);
+
+	return false;
+}
+
+//sends message to other wall
+function sendBrowseMessage(form) {
 	
 	//post message
 	//replace with xmlhtml
-	result = serverstub.postMessage(localStorage.token,form.message.value,uemail);
+	msg = form.message.value;
+	sendPostRequest("postMessage","http://localhost:5000/post_message","recipient="+localStorage.browse+"&message="+msg);
 	
-	if (result.success) {
-		form.message.value="";
-	}
-	console.log(result.message);
-	updateHomeWall();
+	//not the best implementation here since two Post packets are sent to update the wall async., 
+	//implementation demands it however. Would've been better implemented with more time.
+	sendPostRequest("findUser","http://localhost:5000/get_user_data_by_email","token="+localStorage.token+"&email="+localStorage.browse);
+	
+	
 	return false;
 }
+
+
 
 //present/update the user's static info
 function updateUserInfo() {
@@ -259,7 +288,7 @@ function updateBrowseWall() {
 			
 			html+= " <table class='tablemessage' border='1'> <tr> <td> Email: </td> <td> Message: </td> </tr> <tr> <td>" + result[i].writer + "</td> <td>" + result[i].content + "</td> </tr> </table>";
 		}
-		document.getElementById('browseboard').innerHTML=html;		
+		document.getElementById('browseboard').innerHTML=html;	
 		
 		}
 	else {
@@ -270,7 +299,6 @@ function updateBrowseWall() {
 
 function updateBrowseInfo() {
 
-	//replace with xmlhtml
 	result = JSON.parse(localStorage.browseinfo);
 	
 	
@@ -282,24 +310,8 @@ function updateBrowseInfo() {
 
 }
 
-//sends message to other wall
-function sendBrowseMessage(form) {
-	
-	//post message
-	//replace with xmlhtml
-	result = serverstub.postMessage(localStorage.token,form.message.value,localStorage.browse);
-	
-	if (result.success) {
-		form.message.value="";
-	}
-	console.log(result.message);
-	updateBrowseWall();
-	return false;
-}
-
 function isLoggedIn() {
 
-	//return true;
 	if (localStorage.token) {
 		return true;
 	}
@@ -309,8 +321,7 @@ function isLoggedIn() {
 }
 
 function logOut() {
-	localStorage.removeItem("token");
-	location.reload();
+	sendPostRequest("logout","http://localhost:5000/logout","")
 }
 
 function validateSignIn(form) {

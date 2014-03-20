@@ -11,11 +11,6 @@ SECRET_KEY = 'verysecretkey!23X'
 
 @app.route('/', methods=['POST', 'GET'])
 def hello_world():
-    if 'token' in session:
-        return render_template('client.html')
-
-    session['token'] = '12345' #set the token to test user - REMOVE LATER
-
     return render_template('client.html')
 
 ##OLD ROUTE FOR DEMONSTRATING LAB 2
@@ -45,10 +40,12 @@ def post_message():
 
             result = database_helper.post_message(app, recipient, database_helper.token_to_email(app,token), message)
 
-            return result
+            return jsonify(result)
 
     else:
-        return {"success": False, "message": "NO TOKEN IN SESSION"}
+        return jsonify({"success": False, "message": "NO TOKEN IN SESSION"})
+
+
 @app.route('/get_user_data_by_token', methods=['POST'])
 def get_user_data_by_token():
     if 'token' in session:
@@ -156,7 +153,7 @@ def signIn():
 
     return jsonify({"success": False, "message": "GET METHOD NOT ALLOWED LOGGING IN"})
 
-@app.route('/logout')
+@app.route('/logout', methods=['POST', 'GET'])
 def logout():
 
     result = database_helper.log_out_user(app, session['token'])
@@ -164,7 +161,7 @@ def logout():
     if (result['success']):
         session.pop('token', None)
 
-    return result
+    return jsonify(result)
 
 
 @app.route('/sign_up', methods=['POST'])

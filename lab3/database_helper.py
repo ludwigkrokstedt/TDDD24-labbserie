@@ -104,10 +104,10 @@ def check_user_credentials(app, email, password):
         if result["success"] and (password == db_password):
             result["message"] = "Successfully signed in"
         elif result["success"] and password != db_password:
-            result["message": "Retrieved info from db but password invalid"]
+            result["message": "password invalid"]
             result["success"] = False
         else:
-            result["message"] =  "Did not recieve any info from db"
+            result["message"] =  "No such user/password"
             result["success"] = False
 
         return result
