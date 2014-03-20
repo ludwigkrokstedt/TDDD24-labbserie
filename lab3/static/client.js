@@ -68,15 +68,13 @@ http.onreadystatechange = function() {//Call a function when the state changes.
 					
 					sendPostRequest("findUserMessages","http://localhost:5000/get_user_messages_by_email","token="+localStorage.token+"&email="+localStorage.browse);
 					
-					//updateBrowseWall();
 					break;
 				
 				case "findUserMessages":
 					
-					console.log(res.data.content.split("#"));
-					//here is where i am!
+					localStorage.browseMessages = JSON.stringify(res.data);
 					
-					
+					updateBrowseWall();
 					
 					break;
 				
@@ -168,24 +166,29 @@ function updateBrowseWall() {
 
 	if (localStorage.browse != null && localStorage.browseMessages != null) {
 		
-		//replace with xmlhtml
-		result = localStorage.browseMessages;
-		//result = serverstub.getUserMessagesByEmail(localStorage.token,localStorage.browse)
+		res = JSON.parse(localStorage.browseMessages);
 		
-		
-		if (result.success) {
-		
-			document.getElementById('browseboard').innerHTML="";
-			html = "";
-			for ( i=0; i<result.data.length; i++) {		
-			
-				html+= " <table class='tablemessage' border='1'> <tr> <td> Email: </td> <td> Message: </td> </tr> <tr> <td>" + result.data[i].writer + "</td> <td>" + result.data[i].content + "</td> </tr> </table>";
-			}
-			document.getElementById('browseboard').innerHTML=html;		
-		
+		//reformat data to match update wall function
+		o = []
+		contentarr = res.content.split("#");
+		writerarr = res.writer.split("#");
+
+		var i;
+		for (i = 0; i < contentarr.length-1; i++) {
+			o.push({"writer" : writerarr[i], "content" : contentarr[i]});
 		}
 		
-	}
+		result = o;
+				
+		document.getElementById('browseboard').innerHTML="";
+		html = "";
+		for ( i=0; i<result.length; i++) {		
+			
+			html+= " <table class='tablemessage' border='1'> <tr> <td> Email: </td> <td> Message: </td> </tr> <tr> <td>" + result[i].writer + "</td> <td>" + result[i].content + "</td> </tr> </table>";
+		}
+		document.getElementById('browseboard').innerHTML=html;		
+		
+		}
 	else {
 		console.log("ERROR: There is no browse or messages in localStorage, have you cleared the data recently?");
 	}
