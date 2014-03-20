@@ -56,10 +56,10 @@ def get_user_data_by_token():
         email = database_helper.token_to_email(app, token)
 
         result = database_helper.get_user_data_by_email(app,email)
-        return result
+        return jsonify(result)
 
     else:
-        return {"success":False,"data":"There was no token in session"}
+        return jsonify({"success":False,"data":"There was no token in session"})
 
 @app.route('/get_user_data_by_email', methods=['POST'])
 def get_user_data_by_email():
@@ -116,10 +116,10 @@ def get_user_messages_by_token():
         email = database_helper.token_to_email(app,token)
         u_messages = database_helper.get_user_messages_by_email(app, email)
 
-        return u_messages
+        return jsonify(u_messages)
 
     else:
-        return {"success": False, "message":"NO TOKEN IN SESSION"}
+        return jsonify({"success": False, "message":"NO TOKEN IN SESSION"})
 
 
 @app.route('/signin', methods=['POST', 'GET'])

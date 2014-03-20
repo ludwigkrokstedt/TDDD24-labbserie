@@ -12,12 +12,10 @@ function initiate() {
 
 //copies the content of welcome view and puts it in the content tag.
 function showWelcomeView() {
-	console.log("loading welcome view...");
 	document.getElementById('content').innerHTML=(document.getElementById('welcomeview').innerHTML);
 }
 
 function showProfileView() {
-	console.log("loading profile view...");
 	document.getElementById('content').innerHTML=(document.getElementById('profileview').innerHTML);
 	updateHomeWall();
 	updateUserInfo();
@@ -39,80 +37,112 @@ http.onreadystatechange = function() {//Call a function when the state changes.
 		
 		console.log(method + " method called!");
 		
-		if(res.success) {
 			//do different depending on called method, implement as more methods are added
-			switch(method){
-				case "findUser":
-					//set the browse variable to tell what person the user is looking at
-					if(res.success) {
-						localStorage.browse = params.split("&email=")[1];
-						
-						//split and store the user data
-						data = res.data.split("#");
+		switch(method){
+			case "findUser":
+				//set the browse variable to tell what person the user is looking at
+				if(res.success) {
+					localStorage.browse = params.split("&email=")[1];
+					
+					//split and store the user data
+					data = res.data.split("#");
 
-						dict = {
-						"email" : data[0],
-						"firstname" : data[2],
-						"familyname" : data[3],
-						"gender" : data[4],
-						"city" : data[5],
-						"country" : data[6]
-						};
-					
-						localStorage.browseinfo = JSON.stringify(dict);
-						
-						//
-						updateBrowseInfo();
-						
-						
-						sendPostRequest("findUserMessages","http://localhost:5000/get_user_messages_by_email","token="+localStorage.token+"&email="+localStorage.browse);
-					}
-					else {
-						console.log(res.message);
-					}
-					
-					
-					break;
+					dict = {
+					"email" : data[0],
+					"firstname" : data[2],
+					"familyname" : data[3],
+					"gender" : data[4],
+					"city" : data[5],
+					"country" : data[6]
+					};
 				
-				case "findUserMessages":
+					localStorage.browseinfo = JSON.stringify(dict);
 					
-					if(res.success) {
-						localStorage.browseMessages = JSON.stringify(res.data);
-						updateBrowseWall();
-					}
-					else {
-						console.log(res.message);
-					}
+					//
+					updateBrowseInfo();
 					
-					break;
 					
-				case "signIn":
+					sendPostRequest("findUserMessages","http://localhost:5000/get_user_messages_by_email","token="+localStorage.token+"&email="+localStorage.browse);
+				}
+				else {
+					console.log(res.message);
+				}
+				
+				
+				break;
+			
+			case "findUserMessages":
+				
+				if(res.success) {
+					localStorage.browseMessages = JSON.stringify(res.data);
+					updateBrowseWall();
+				}
+				else {
+					console.log(res.message);
+				}
+				
+				break;
+				
+			case "signIn":
+				
+				//set the message1-span to display error message
+				document.getElementById('message1').innerHTML = res.message;
+				
+				//store token locally if success..
+				if (res['success']) {
+					localStorage.token=res.data;
+					location.reload();
+				}
+				else {
+					redborder(form.email);
+					redborder(form.password);
+				}
 					
-					console.log("sign in request recieved from server!")
+				break;
+			
+			case "homeWall":
+				
+				if (res['success']) {
+					localStorage.userMessages = JSON.stringify(res.data);
+					updateHomeWall();
+					
+				} else {
+					console.log(res.message + " ; could not find a user bearing that token - have you sent a valid one?");
+				}
+				break;
+			
+			case "userData":
+			
+				if (res['success']) {
 
-					console.log(res);
-					//set the message1-span to display error message
-					document.getElementById('message1').innerHTML = res.message;
-					
-					//store token locally if success..
-					if (res['success']) {
-						localStorage.token=res.data;
-						location.reload();
-					}
-					else {
-						redborder(form.email);
-						redborder(form.password);
-					}
-						
-					
-					break;
+					//split and store the user data
+					data = res.data.split("#");
+
+					dict = {
+					"email" : data[0],
+					"firstname" : data[2],
+					"familyname" : data[3],
+					"gender" : data[4],
+					"city" : data[5],
+					"country" : data[6]
+					};
 				
-				default:
-					console.log("no correct method called in server, do nothing!");
-					break;
-			}
-		
+					localStorage.userinfo = JSON.stringify(dict);
+					
+					
+					updateUserInfo();
+				} else {
+					console.log(res.message + " ; could not find a user bearing that token - have you sent a valid one?");
+				}
+				
+				break;
+			
+			default:
+				console.log("no correct method called in server =>  do nothing!");
+				break;
 		}
+	
+		
 
 
 	
@@ -158,53 +188,70 @@ function sendMessage(form) {
 function updateUserInfo() {
 	
 	//replace with xmlhtml
-	result = serverstub.getUserDataByToken(localStorage.token).data;
+	if (localStorage.userinfo) {
+		
+		result = JSON.parse(localStorage.userinfo);
+		
+		html = "";
+		
+		html += " <table class='tablemessage' border='1'> <tr> <td> Email: </td> <td> Name: </td> <td> Gender: </td>  <td> City: </td> </tr> <tr> <td>" + result.email + "</td> <td>" + result.firstname + " " + result.familyname + "</td> <td>" + result.gender + "</td> <td>" + result.city + "</td> </tr> </table>"
+		
+		
+		document.getElementById('userinfo').innerHTML=html;
+	}
+	else {
+		sendPostRequest("userData","http://localhost:5000/get_user_data_by_token","token="+localStorage.token);
+	}
 	
-	html = "";
 	
-	html += " <table class='tablemessage' border='1'> <tr> <td> Email: </td> <td> Name: </td> <td> Gender: </td>  <td> City: </td> </tr> <tr> <td>" + result.email + "</td> <td>" + result.firstname + " " + result.familyname + "</td> <td>" + result.gender + "</td> <td>" + result.city + "</td> </tr> </table>"
-	
-	
-	document.getElementById('userinfo').innerHTML=html;
-	
-	
+}
+
+//helpfunction that converts the messages in localstorage to right format for the homewall and browsewall functions
+function msgToFormat(stringifiedStorage){
+
+	res = JSON.parse(stringifiedStorage);
+		
+	o = []
+	contentarr = res.content.split("#");
+	writerarr = res.writer.split("#");
+
+	var i;
+	for (i = 0; i < contentarr.length-1; i++) {
+		o.push({"writer" : writerarr[i], "content" : contentarr[i]});
+	}
+
+	return o;
 }
 
 //updates the user's home wall
 function updateHomeWall() {
 
-	//replace with xmlhtml
-	result = serverstub.getUserMessagesByToken(localStorage.token);
+	if (localStorage.userMessages) { 
 	
-	document.getElementById('messageboard').innerHTML="";
-	
-	html = "";
-	
-	for ( i=0; i<result.data.length; i++) {		
-	
-		html+= " <table class='tablemessage' border='1'> <tr> <td> Email: </td> <td> Message: </td> </tr> <tr> <td>" + result.data[i].writer + "</td> <td>" + result.data[i].content + "</td> </tr> </table>";
-	
-	}
-	
-	document.getElementById('messageboard').innerHTML=html;
-}
-
-function updateBrowseWall() {
-
-	if (localStorage.browse != null && localStorage.browseMessages != null) {
+		result = msgToFormat(localStorage.userMessages);
 		
-		res = JSON.parse(localStorage.browseMessages);
+		document.getElementById('messageboard').innerHTML="";
 		
-		o = []
-		contentarr = res.content.split("#");
-		writerarr = res.writer.split("#");
-
-		var i;
-		for (i = 0; i < contentarr.length-1; i++) {
-			o.push({"writer" : writerarr[i], "content" : contentarr[i]});
+		html = "";
+		
+		for ( i=0; i<result.length; i++) {		
+		
+			html+= " <table class='tablemessage' border='1'> <tr> <td> Email: </td> <td> Message: </td> </tr> <tr> <td>" + result[i].writer + "</td> <td>" + result[i].content + "</td> </tr> </table>";
 		}
 		
-		result = o;
+		document.getElementById('messageboard').innerHTML=html;
+		}	
+	else {
+		sendPostRequest("homeWall","http://localhost:5000/get_user_messages_by_token","token="+localStorage.token);
+		}
+	}
+
+//updates the wall that is currently browsed
+function updateBrowseWall() {
+
+	if (localStorage.browse && localStorage.browseMessages) {
+		
+		result = msgToFormat(localStorage.browseMessages);
 				
 		document.getElementById('browseboard').innerHTML="";
 		html = "";
@@ -216,7 +263,7 @@ function updateBrowseWall() {
 		
 		}
 	else {
-		console.log("ERROR: There is no browse or messages in localStorage, have you cleared the data recently?");
+		console.log("ERROR: There is no browse or messages in localStorage, have you cleared the local data recently? Try searching for another user and see what happens.");
 	}
 
 }
