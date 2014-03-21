@@ -40,6 +40,8 @@ def post_message():
 
             message = request.form['message']
 
+
+
             result = database_helper.post_message(app, recipient, database_helper.token_to_email(app,token), message)
 
             return jsonify(result)
@@ -243,17 +245,15 @@ def realtime_messages():
     if request.environ.get('wsgi.websocket'):
 
         ws = request.environ['wsgi.websocket']
-        print(ws)
-
-        message = "hejsan"
 
         while True:
             message = ws.receive()
-            ws.send(message)
+            for client in ws.handler.server.clients.values():
+                client.ws.send("someone sent a message!")
 
         return "hej"
 
-def run_sever(app):
+def run_server(app):
     app.debug = True
     http_server = WSGIServer(('',5000), app, handler_class=WebSocketHandler)
     http_server.serve_forever()
@@ -262,5 +262,5 @@ if __name__ == '__main__':
     #Secret key must be set to use sessions
     app.secret_key = SECRET_KEY
     #app.run()
-    run_sever(app)
+    run_server(app)
 

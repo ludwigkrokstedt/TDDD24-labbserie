@@ -4,10 +4,10 @@ function initiate() {
 		
 		
 		//some websocket tryouts
-		var connection = new WebSocket("ws://localhost:5000/realtime_messages");
+		connection = new WebSocket("ws://localhost:5000/realtime_messages");
 		
 		connection.onopen = function () {
-			connection.send('Ping');
+			console.log("socket connection opened");
 			};
 		
 		connection.onerror = function (error) {
@@ -16,9 +16,17 @@ function initiate() {
 			
 		connection.onmessage = function (e) {
 			console.log('Server: ' + e.data);
+				if (localStorage.token) {
+					sendPostRequest("homeWall","http://localhost:5000/get_user_messages_by_token","token="+localStorage.token);
+					if (localStorage.browse) {
+						sendPostRequest("findUser","http://localhost:5000/get_user_data_by_email","token="+localStorage.token+"&email="+localStorage.browse);
+					}
+				}			
+			};
+		
+		connection.onclose = function () {
+			console.log("connection closed");
 		};
-		
-		
 		
 		showProfileView();
 
@@ -162,6 +170,11 @@ http.onreadystatechange = function() {//Call a function when the state changes.
 					updateHomeWall();
 					document.getElementById("usermessage").value="";
 					document.getElementById("browsemsg").value="";
+
+					
+					connection.send("update");
+
+					
 				} else {
 					console.log(res.message);
 				}
@@ -389,6 +402,9 @@ function isLoggedIn() {
 
 function logOut() {
 	sendPostRequest("logout","http://localhost:5000/logout","")
+	if (connection) {
+		connection.close();
+	}
 }
 
 function validateSignIn(form) {
