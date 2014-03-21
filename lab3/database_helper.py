@@ -201,5 +201,3 @@ def change_user_pwd(app, email, new_password):
         c.execute("UPDATE users SET password='"+new_password+"' WHERE email='"+email+"' ")
         conn.commit()
 
-# Note: the implementation of the functions has been removed on purpose.
-

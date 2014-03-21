@@ -232,9 +232,9 @@ def change_password():
         if database_helper.check_user_credentials(app, email, old_pwd)['success']:
             new_pwd = encode(SECRET_KEY, request.form['newpwd'])
             database_helper.change_user_pwd(app, email, new_pwd)
-            return {"success": True, "message": "Password changed!"}
+            return jsonify({"success": True, "message": "Password changed!"})
         else:
-            return {"success": False, "message":"old_pwd not in DB"}
+            return jsonify({"success": False, "message":"Wrong password"})
 
 
 

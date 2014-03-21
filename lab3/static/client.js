@@ -189,6 +189,12 @@ http.onreadystatechange = function() {//Call a function when the state changes.
 						
 				break;
 				
+			case "changePWD":
+				
+				document.getElementById('oldpwd').value=res.message;
+				document.getElementById('newpwd').value="";
+				break;
+				
 			default:
 				console.log("no correct method called in server =>  do nothing!");
 				break;
@@ -292,7 +298,6 @@ function updateHomeWall() {
 	if (localStorage.userMessages) { 
 	
 		result = msgToFormat(localStorage.userMessages);
-		
 		document.getElementById('messageboard').innerHTML="";
 		
 		html = "";
@@ -328,7 +333,6 @@ function updateBrowseWall() {
 	else {
 		console.log("ERROR: There is no browse or messages in localStorage, have you cleared the local data recently? Try searching for another user and see what happens.");
 	}
-
 }
 
 function updateBrowseInfo() {
@@ -342,6 +346,19 @@ function updateBrowseInfo() {
 	
 	document.getElementById('browseinfo').innerHTML=html;
 
+}
+
+function changePassword(form) {
+
+	//serverstub.changePassword(localStorage.token, oldpwd.value, newpwd.value);
+	console.log(form.oldpwd.value);
+	console.log(form.newpwd.value);
+	
+	sendPostRequest("changePWD","http://localhost:5000/change_password","oldpwd="+form.oldpwd.value+"&newpwd="+form.newpwd.value);
+	
+	
+	//console.log(form.newpwd.value);
+	return false;
 }
 
 function isLoggedIn() {
@@ -377,8 +394,6 @@ function validateSignIn(form) {
 function validateSignUp(form) {
 	
 	if (validate(form) && compare_pwd(form)) {
-		
-		
 		
 		//construct the JSON object to send
 		email = form.email.value;
@@ -424,7 +439,6 @@ function validate(form) {
 	} 
 	
 	return isFilled;
-	
 }
 
 function compare_pwd(form)	{

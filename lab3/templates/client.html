@@ -130,12 +130,12 @@
 					<button type="button" onclick="logOut()">Log out</button>	
 					
 					<p>Change password below: </p>
-					<form name="changepwdform" onsubmit="return serverstub.changePassword(localStorage.token, oldpwd.value, newpwd.value)" method="post">
+					<form name="changepwdform" onsubmit="return changePassword(this);" method="post">
 						<p style="display: inline">Old password:</p>
-						<input type="text" name="oldpwd"><br>
+						<input type="text" name="oldpwd" id="oldpwd"><br>
 						<p style="display: inline">New password:</p>
-						<input type="text" name="newpwd">
-						<button type="button" onclick="serverstub.changePassword(localStorage.token, oldpwd.value, newpwd.value);oldpwd.value='';newpwd.value='';">Change!</button>
+						<input type="text" name="newpwd" id="newpwd">
+						<input type="submit" value="Change!">
 						<!-- <input type="submit" value="Change pwd!"><br> -->
 					</form>
 					
