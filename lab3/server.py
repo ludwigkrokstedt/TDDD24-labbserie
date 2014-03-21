@@ -11,6 +11,7 @@ app.config['DEBUG'] = True
 
 SECRET_KEY = 'verysecretkey!23X'
 
+
 @app.route('/', methods=['POST', 'GET'])
 def hello_world():
     return render_template('client.html')
@@ -39,8 +40,6 @@ def post_message():
                 recipient = database_helper.token_to_email(app,recipient)
 
             message = request.form['message']
-
-
 
             result = database_helper.post_message(app, recipient, database_helper.token_to_email(app,token), message)
 

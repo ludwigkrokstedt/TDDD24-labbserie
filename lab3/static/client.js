@@ -1,8 +1,6 @@
 function initiate() {
 	if (isLoggedIn()) {
 		console.log("you are logged in");
-		
-		
 		//some websocket tryouts
 		connection = new WebSocket("ws://localhost:5000/realtime_messages");
 		
