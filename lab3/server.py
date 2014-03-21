@@ -1,6 +1,8 @@
 # the server module provides the capability to save, get and remove phone contacts using database_helper module.
 import base64
 from flask import Flask,session, render_template, request, redirect, flash,jsonify
+from geventwebsocket.handler import WebSocketHandler
+from gevent.pywsgi import WSGIServer
 import database_helper, random
 #more required imports
 
@@ -236,10 +238,29 @@ def change_password():
         else:
             return jsonify({"success": False, "message":"Wrong password"})
 
+@app.route('/realtime_messages')
+def realtime_messages():
+    if request.environ.get('wsgi.websocket'):
 
+        ws = request.environ['wsgi.websocket']
+        print(ws)
+
+        message = "hejsan"
+
+        while True:
+            message = ws.receive()
+            ws.send(message)
+
+        return "hej"
+
+def run_sever(app):
+    app.debug = True
+    http_server = WSGIServer(('',5000), app, handler_class=WebSocketHandler)
+    http_server.serve_forever()
 
 if __name__ == '__main__':
     #Secret key must be set to use sessions
     app.secret_key = SECRET_KEY
-    app.run()
+    #app.run()
+    run_sever(app)
 

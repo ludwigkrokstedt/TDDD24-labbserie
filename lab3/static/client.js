@@ -1,6 +1,25 @@
 function initiate() {
 	if (isLoggedIn()) {
 		console.log("you are logged in");
+		
+		
+		//some websocket tryouts
+		var connection = new WebSocket("ws://localhost:5000/realtime_messages");
+		
+		connection.onopen = function () {
+			connection.send('Ping');
+			};
+		
+		connection.onerror = function (error) {
+			console.log('WebSocket Error ' + error);
+			};
+			
+		connection.onmessage = function (e) {
+			console.log('Server: ' + e.data);
+		};
+		
+		
+		
 		showProfileView();
 
 		}
@@ -9,6 +28,8 @@ function initiate() {
 		showWelcomeView();
 	}
 }
+
+
 
 //copies the content of welcome view and puts it in the content tag.
 function showWelcomeView() {
@@ -349,15 +370,10 @@ function updateBrowseInfo() {
 }
 
 function changePassword(form) {
-
-	//serverstub.changePassword(localStorage.token, oldpwd.value, newpwd.value);
-	console.log(form.oldpwd.value);
-	console.log(form.newpwd.value);
 	
 	sendPostRequest("changePWD","http://localhost:5000/change_password","oldpwd="+form.oldpwd.value+"&newpwd="+form.newpwd.value);
 	
-	
-	//console.log(form.newpwd.value);
+
 	return false;
 }
 
@@ -382,7 +398,6 @@ function validateSignIn(form) {
 		email = form.email.value;
 		password = form.password.value;
 		
-		//replace with xmlhtml
 		sendPostRequest("signIn","http://localhost:5000/signin","email="+email+"&password="+password);
 		return false;
 	}
